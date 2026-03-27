@@ -1,0 +1,4412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NutriPlan — Minha Rotina</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0b0c10;
+  --bg2: #121318;
+  --bg3: #191b22;
+  --bg4: #21232d;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+
+  --green: #6fcf8e;
+  --green-dim: rgba(111,207,142,0.14);
+  --teal: #5ec4b6;
+  --teal-dim: rgba(94,196,182,0.14);
+  --gold: #e8c06a;
+  --gold-dim: rgba(232,192,106,0.14);
+  --coral: #e07b6a;
+  --coral-dim: rgba(224,123,106,0.14);
+  --sky: #6aaed4;
+  --sky-dim: rgba(106,174,212,0.14);
+  --rose: #d47fa6;
+  --rose-dim: rgba(212,127,166,0.14);
+  --purple: #a07cd4;
+  --purple-dim: rgba(160,124,212,0.14);
+
+  --text: #ecedf5;
+  --text2: #8c8da8;
+  --text3: #4e4f65;
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 7px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Raleway', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 210px;
+  min-height: 100vh;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 12px;
+  position: fixed;
+  top:0; left:0; bottom:0;
+  z-index: 50;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 8px;
+  margin-bottom: 28px;
+}
+
+.logo-mark {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--green), var(--teal));
+  border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #07110f;
+  text-transform: uppercase;
+}
+
+.logo-name {
+  font-family: 'Lora', serif;
+  font-size: 17px;
+  letter-spacing: -0.3px;
+}
+.logo-name em { font-style: italic; color: var(--green); }
+
+.nav-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.1px;
+  color: var(--text3);
+  padding: 0 10px;
+  margin: 16px 0 5px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 10px;
+  border-radius: var(--radius-xs);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: 1px;
+  border: 1px solid transparent;
+}
+
+.nav-item:hover { background: var(--bg3); color: var(--text); }
+.nav-item.active {
+  background: var(--green-dim);
+  color: var(--green);
+  border-color: rgba(111,207,142,0.2);
+}
+
+.nav-icon {
+  min-width: 24px;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(236,237,245,0.45);
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+}
+
+.avatar {
+  width: 33px; height: 33px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--green), var(--teal));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: #0b0c10;
+  flex-shrink: 0;
+}
+
+.user-name { font-size: 13px; font-weight: 600; }
+.user-role { font-size: 10.5px; color: var(--text3); }
+
+/* MAIN */
+.main {
+  margin-left: 210px;
+  flex: 1;
+  padding: 26px 26px 40px;
+}
+
+/* TOPBAR */
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.greeting {
+  font-family: 'Lora', serif;
+  font-size: 24px;
+  letter-spacing: -0.4px;
+  margin-bottom: 3px;
+}
+.greeting em { color: var(--green); font-style: italic; }
+.greeting-sub { font-size: 13px; color: var(--text2); }
+
+.clock-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  font-size: 13px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text2);
+}
+.live-dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.4)} }
+
+/* STATS ROW */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.mini-stat {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.mini-stat-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  flex-shrink: 0;
+}
+
+.mini-stat-val {
+  font-family: 'Lora', serif;
+  font-size: 22px;
+  letter-spacing: -0.5px;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+.mini-stat-label { font-size: 11px; color: var(--text3); }
+
+/* LAYOUT */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 16px;
+}
+.left-col { display: flex; flex-direction: column; gap: 16px; }
+.right-col { display: flex; flex-direction: column; gap: 16px; }
+
+/* CARD */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+
+.card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.card-title {
+  font-family: 'Lora', serif;
+  font-size: 15px;
+  letter-spacing: -0.2px;
+}
+.card-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+/* ── WEEKLY SCHEDULE ─────────────── */
+.week-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.week-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.week-btn {
+  width: 28px; height: 28px;
+  border-radius: 7px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 13px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.week-btn:hover { background: var(--bg4); color: var(--text); }
+
+.week-label { font-size: 12px; color: var(--text2); font-weight: 500; }
+
+.btn-add-event {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 13px;
+  background: var(--green-dim);
+  border: 1px solid rgba(111,207,142,0.25);
+  border-radius: var(--radius-xs);
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-add-event:hover { background: rgba(111,207,142,0.22); }
+
+/* GRID */
+.sched-wrap { overflow-x: auto; }
+
+.sched-grid {
+  display: grid;
+  grid-template-columns: 50px repeat(7, 1fr);
+  gap: 3px;
+  min-width: 640px;
+}
+
+.sched-day-hd {
+  text-align: center;
+  padding-bottom: 8px;
+}
+.sched-day-name {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text3);
+}
+.sched-day-num {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 1px;
+  color: var(--text2);
+}
+.sched-day-hd.today .sched-day-name { color: var(--green); }
+.sched-day-hd.today .sched-day-num {
+  color: #0b0c10;
+  background: var(--green);
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 2px auto 0;
+  font-size: 13px;
+}
+
+.sched-hour-label {
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text3);
+  text-align: right;
+  padding-right: 8px;
+  padding-top: 6px;
+  line-height: 1;
+}
+
+.sched-cell {
+  height: 36px;
+  border-radius: 5px;
+  background: rgba(255,255,255,0.015);
+  border: 1px solid var(--border);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.sched-cell:hover { background: var(--bg3); }
+.sched-cell.has-event { background: transparent; border-color: transparent; cursor: default; }
+
+.event-block {
+  position: absolute;
+  inset: 1px;
+  border-radius: 5px;
+  padding: 3px 7px;
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-left: 3px solid;
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+.event-block:hover { filter: brightness(1.15); }
+
+/* event categories */
+.ev-consulta  { background:var(--green-dim);  border-color:var(--green);  color:var(--green); }
+.ev-social    { background:var(--rose-dim);   border-color:var(--rose);   color:var(--rose); }
+.ev-admin     { background:var(--sky-dim);    border-color:var(--sky);    color:var(--sky); }
+.ev-reuniao   { background:var(--gold-dim);   border-color:var(--gold);   color:var(--gold); }
+.ev-personal  { background:var(--purple-dim); border-color:var(--purple); color:var(--purple); }
+.ev-outros    { background:var(--teal-dim);   border-color:var(--teal);   color:var(--teal); }
+
+/* ── MODAL ───────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.15s ease;
+}
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+.modal {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 26px;
+  width: 380px;
+  max-width: 95vw;
+  animation: slideUp 0.2s ease;
+}
+@keyframes slideUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
+
+.modal-title {
+  font-family: 'Lora', serif;
+  font-size: 17px;
+  margin-bottom: 18px;
+}
+
+.form-group { margin-bottom: 13px; }
+.form-label { font-size: 11.5px; font-weight: 600; color: var(--text2); margin-bottom: 5px; display: block; }
+
+.form-input, .form-select {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xs);
+  padding: 9px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-input:focus, .form-select:focus { border-color: var(--green); }
+.form-input::placeholder { color: var(--text3); }
+.form-select option { background: #1a1b22; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.btn-cancel {
+  flex: 1;
+  padding: 10px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  color: var(--text2);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-cancel:hover { background: var(--bg4); }
+
+.btn-save {
+  flex: 2;
+  padding: 10px;
+  background: linear-gradient(135deg, var(--green), var(--teal));
+  border: none;
+  border-radius: var(--radius-xs);
+  color: #0b0c10;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-save:hover { opacity: 0.88; }
+
+.btn-delete-ev {
+  padding: 10px 14px;
+  background: var(--coral-dim);
+  border: 1px solid rgba(224,123,106,0.25);
+  border-radius: var(--radius-xs);
+  color: var(--coral);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-delete-ev:hover { background: rgba(224,123,106,0.25); }
+
+/* ── TASKS ───────────────────────── */
+.task-input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.task-input {
+  flex: 1;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: 9px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.task-input:focus { border-color: var(--green); }
+.task-input::placeholder { color: var(--text3); }
+
+.btn-add {
+  padding: 9px 14px;
+  background: var(--green-dim);
+  border: 1px solid rgba(111,207,142,0.28);
+  border-radius: var(--radius-xs);
+  color: var(--green);
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1;
+}
+.btn-add:hover { background: rgba(111,207,142,0.22); }
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-height: 310px;
+  overflow-y: auto;
+}
+.task-list::-webkit-scrollbar { width: 3px; }
+.task-list::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 10px; }
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 11px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  transition: all 0.15s;
+  animation: slideIn 0.2s ease;
+}
+@keyframes slideIn { from{opacity:0;transform:translateY(-5px)} to{opacity:1;transform:none} }
+.task-item:hover { border-color: var(--border2); background: var(--bg4); }
+.task-item.done { opacity: 0.4; }
+.task-item.done .task-text { text-decoration: line-through; }
+
+.task-check {
+  width: 17px; height: 17px;
+  border-radius: 5px;
+  border: 2px solid var(--border2);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  transition: all 0.2s;
+}
+.task-item.done .task-check { background: var(--green); border-color: var(--green); color: #0b0c10; }
+
+.task-text { font-size: 13px; flex: 1; line-height: 1.3; }
+
+.task-cat {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+
+.task-del {
+  font-size: 13px;
+  color: var(--text3);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.task-item:hover .task-del { opacity: 1; }
+
+/* task select */
+.task-cat-select {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: 9px 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: var(--text2);
+  outline: none;
+  flex-shrink: 0;
+}
+
+/* ── TIMER ───────────────────────── */
+.timer-card {
+  text-align: center;
+  background: linear-gradient(145deg, #131520, #0e0f16);
+  border-color: rgba(111,207,142,0.15);
+  position: relative;
+  overflow: hidden;
+}
+.timer-card::before {
+  content:'';
+  position:absolute;
+  top:-50px; left:50%; transform:translateX(-50%);
+  width:180px; height:180px;
+  background:radial-gradient(circle, rgba(111,207,142,0.08) 0%, transparent 70%);
+  pointer-events:none;
+}
+
+.timer-task-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: var(--green-dim);
+  border: 1px solid rgba(111,207,142,0.22);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--green);
+  margin-bottom: 16px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.timer-display {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 58px;
+  font-weight: 600;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.timer-mode-name { font-size: 11px; color: var(--text3); margin-bottom: 18px; }
+
+.timer-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.btn-t {
+  min-width: 64px;
+  height: 42px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+
+.btn-play {
+  min-width: 94px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--green), var(--teal));
+  color: #0b0c10;
+  font-size: 10px;
+  box-shadow: 0 0 28px rgba(111,207,142,0.28);
+}
+.btn-play:hover { transform: scale(1.06); box-shadow: 0 0 38px rgba(111,207,142,0.42); }
+
+.btn-side {
+  background: var(--bg3);
+  color: var(--text2);
+  border: 1px solid var(--border) !important;
+}
+.btn-side:hover { background: var(--bg4); color: var(--text); }
+
+.mode-tabs {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.mode-tab {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text3);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.mode-tab.active {
+  background: var(--green-dim);
+  border-color: rgba(111,207,142,0.28);
+  color: var(--green);
+}
+
+.session-dots {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+.sdot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--bg4);
+  border: 1px solid var(--border2);
+  transition: all 0.3s;
+}
+.sdot.done { background: var(--green); border-color: var(--green); }
+
+/* VISUAL POLISH */
+:root {
+  color-scheme: dark;
+  --bg: #081412;
+  --bg2: rgba(13, 22, 27, 0.88);
+  --bg3: rgba(19, 31, 38, 0.88);
+  --bg4: #21333b;
+  --border: rgba(226, 240, 233, 0.08);
+  --border2: rgba(210, 237, 224, 0.18);
+  --shadow-soft: 0 22px 48px rgba(0, 0, 0, 0.22);
+  --shadow-card: 0 24px 54px rgba(0, 0, 0, 0.26);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  position: relative;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(111,207,142,0.14), transparent 26%),
+    radial-gradient(circle at 88% 8%, rgba(232,192,106,0.10), transparent 22%),
+    radial-gradient(circle at 50% 100%, rgba(94,196,182,0.09), transparent 30%),
+    linear-gradient(180deg, #081412 0%, #0a1014 52%, #070b0e 100%);
+}
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(60px);
+  opacity: 0.55;
+}
+
+body::before {
+  top: 40px;
+  right: -60px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: rgba(111,207,142,0.10);
+}
+
+body::after {
+  bottom: 20px;
+  left: -40px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(106,174,212,0.08);
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+::selection {
+  background: rgba(111,207,142,0.26);
+  color: var(--text);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sidebar {
+  background: linear-gradient(180deg, rgba(10, 19, 24, 0.92), rgba(9, 15, 20, 0.96));
+  backdrop-filter: blur(18px);
+  box-shadow: 22px 0 60px rgba(0,0,0,0.22);
+  padding: 28px 14px 18px;
+}
+
+.sidebar::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(111,207,142,0.42), transparent);
+}
+
+.logo {
+  margin-bottom: 34px;
+  padding: 0 10px;
+}
+
+.logo-mark {
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.22);
+}
+
+.logo-name {
+  font-size: 18px;
+  letter-spacing: -0.4px;
+}
+
+.nav-label {
+  color: rgba(140, 141, 168, 0.55);
+  letter-spacing: 1.4px;
+}
+
+.nav-item {
+  position: relative;
+  text-decoration: none;
+  overflow: hidden;
+  padding: 11px 12px;
+  border-radius: 12px;
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.nav-item::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--green), var(--teal));
+  opacity: 0;
+  transform: scaleY(0.4);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.nav-item:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.05);
+  color: var(--text);
+  transform: translateX(2px);
+}
+
+.nav-item.active {
+  background: linear-gradient(90deg, rgba(111,207,142,0.16), rgba(94,196,182,0.08));
+  border-color: rgba(111,207,142,0.22);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 16px 30px rgba(0,0,0,0.18);
+}
+
+.nav-item:hover::before,
+.nav-item.active::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.user-row {
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  box-shadow: 0 12px 22px rgba(0,0,0,0.2);
+}
+
+.main {
+  position: relative;
+  margin-left: 210px;
+  padding: 34px 34px 48px;
+}
+
+.main::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 140px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+  pointer-events: none;
+}
+
+.topbar {
+  margin-bottom: 28px;
+  gap: 16px;
+}
+
+.greeting {
+  font-size: clamp(28px, 3vw, 34px);
+  line-height: 1.02;
+  margin-bottom: 6px;
+}
+
+.greeting-sub {
+  font-size: 13.5px;
+  letter-spacing: 0.01em;
+}
+
+.clock-pill {
+  background: linear-gradient(180deg, rgba(17,28,34,0.88), rgba(10,17,21,0.92));
+  border-color: rgba(255,255,255,0.08);
+  box-shadow: var(--shadow-soft);
+  padding: 10px 16px;
+}
+
+.stats-row {
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.mini-stat {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(15,24,29,0.92), rgba(10,17,21,0.96));
+  border-color: rgba(255,255,255,0.06);
+  box-shadow: var(--shadow-soft);
+  padding: 18px;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.mini-stat::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent);
+}
+
+.mini-stat:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255,255,255,0.11);
+  box-shadow: 0 24px 54px rgba(0,0,0,0.3);
+}
+
+.mini-stat-icon {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.mini-stat-val {
+  font-size: 24px;
+}
+
+.mini-stat-label {
+  font-size: 11.5px;
+  color: rgba(236,237,245,0.62);
+}
+
+.layout {
+  gap: 18px;
+}
+
+.left-col,
+.right-col {
+  gap: 18px;
+}
+
+.page-intro {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.page-intro-copy {
+  max-width: 720px;
+}
+
+.page-intro-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg2) 86%, white 14%);
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+
+.page-intro-title {
+  margin: 14px 0 0;
+  font-family: 'Lora', serif;
+  font-size: clamp(28px, 3vw, 38px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  color: var(--text);
+}
+
+.page-intro-lead {
+  max-width: 620px;
+  margin: 12px 0 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text2);
+}
+
+.page-modules {
+  display: none;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.module-card {
+  display: block;
+  padding: 22px;
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255,255,255,0.16), transparent 28%),
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  box-shadow: var(--shadow-card);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.module-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--border2);
+  box-shadow: 0 26px 42px rgba(8, 145, 178, 0.12);
+}
+
+.module-card-kicker {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--teal) 14%, transparent);
+  color: var(--teal);
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.module-card-title {
+  display: block;
+  margin-top: 16px;
+  font-family: 'Lora', serif;
+  font-size: 22px;
+  line-height: 1.18;
+  color: var(--text);
+}
+
+.module-card-text {
+  margin: 10px 0 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text2);
+}
+
+.module-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+
+body.page-dashboard .page-modules {
+  display: grid;
+}
+
+body.page-dashboard .layout {
+  display: none;
+}
+
+body.page-agenda .stats-row,
+body.page-tarefas .stats-row,
+body.page-timer .stats-row,
+body.page-agenda .section-tasks,
+body.page-agenda .right-col,
+body.page-tarefas .section-schedule,
+body.page-tarefas .right-col,
+body.page-timer .left-col,
+body.page-timer .section-today {
+  display: none;
+}
+
+body.page-agenda .layout,
+body.page-tarefas .layout,
+body.page-timer .layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+body.page-timer .right-col {
+  width: min(560px, 100%);
+  margin: 0 auto;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(14,22,27,0.94), rgba(9,15,19,0.98));
+  border-color: rgba(255,255,255,0.06);
+  box-shadow: var(--shadow-card);
+  padding: 22px;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
+}
+
+.card-head {
+  margin-bottom: 18px;
+}
+
+.card-title {
+  font-size: 16px;
+}
+
+.card-sub {
+  font-size: 11.5px;
+  color: rgba(236,237,245,0.46);
+}
+
+.week-header {
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.week-btn,
+.btn-add-event,
+.btn-add,
+.btn-cancel,
+.btn-save,
+.btn-delete-ev,
+.btn-t,
+.mode-tab {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+.week-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.04);
+}
+
+.week-btn:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-1px);
+}
+
+.week-label {
+  font-size: 12.5px;
+  color: rgba(236,237,245,0.72);
+  letter-spacing: 0.02em;
+}
+
+.btn-add-event {
+  padding: 9px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(111,207,142,0.18), rgba(94,196,182,0.12));
+}
+
+.btn-add-event:hover {
+  background: linear-gradient(135deg, rgba(111,207,142,0.28), rgba(94,196,182,0.18));
+  transform: translateY(-1px);
+}
+
+.sched-wrap {
+  padding: 10px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.sched-grid {
+  gap: 6px;
+  min-width: 720px;
+}
+
+.sched-day-hd {
+  padding: 10px 0 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid transparent;
+}
+
+.sched-day-name {
+  letter-spacing: 0.9px;
+}
+
+.sched-day-num {
+  color: rgba(236,237,245,0.78);
+}
+
+.sched-day-hd.today {
+  background: linear-gradient(180deg, rgba(111,207,142,0.12), rgba(94,196,182,0.04));
+  border-color: rgba(111,207,142,0.18);
+}
+
+.sched-day-hd.today .sched-day-num {
+  box-shadow: 0 10px 22px rgba(111,207,142,0.26);
+}
+
+.sched-hour-label {
+  align-self: center;
+  padding-top: 0;
+  color: rgba(236,237,245,0.38);
+}
+
+.sched-cell {
+  height: 42px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.01));
+  transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+
+.sched-cell:hover {
+  background: rgba(255,255,255,0.045);
+  border-color: rgba(111,207,142,0.18);
+  transform: translateY(-1px);
+}
+
+.event-block {
+  inset: 2px;
+  border-radius: 9px;
+  padding: 5px 8px;
+  font-size: 10.5px;
+  box-shadow: 0 12px 20px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.event-block:hover {
+  filter: brightness(1.08);
+}
+
+.modal-overlay {
+  backdrop-filter: blur(10px);
+  background: rgba(4,8,10,0.72);
+}
+
+.modal {
+  background: linear-gradient(180deg, rgba(15,23,28,0.98), rgba(10,15,19,1));
+  box-shadow: 0 34px 70px rgba(0,0,0,0.42);
+}
+
+.modal-title {
+  font-size: 19px;
+}
+
+.form-label {
+  margin-bottom: 7px;
+}
+
+.form-input,
+.form-select,
+.task-input,
+.task-cat-select {
+  background: rgba(255,255,255,0.035);
+  border-color: rgba(255,255,255,0.09);
+}
+
+.form-input,
+.form-select {
+  padding: 10px 12px;
+}
+
+.form-input:focus,
+.form-select:focus,
+.task-input:focus,
+.task-cat-select:focus {
+  border-color: rgba(111,207,142,0.58);
+  box-shadow: 0 0 0 4px rgba(111,207,142,0.10);
+}
+
+.btn-cancel,
+.btn-delete-ev,
+.btn-save {
+  transition: transform 0.16s ease, opacity 0.16s ease, background 0.16s ease;
+}
+
+.btn-cancel:hover,
+.btn-delete-ev:hover,
+.btn-save:hover {
+  transform: translateY(-1px);
+}
+
+.btn-save {
+  box-shadow: 0 18px 28px rgba(94,196,182,0.22);
+}
+
+.task-input-row {
+  align-items: stretch;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.task-input,
+.task-cat-select {
+  min-height: 42px;
+  color: var(--text);
+}
+
+.task-cat-select option {
+  background: #172127;
+}
+
+.btn-add {
+  min-width: 44px;
+  border-radius: 12px;
+}
+
+.btn-add:hover {
+  transform: translateY(-1px);
+}
+
+.task-list {
+  gap: 8px;
+  max-height: 340px;
+}
+
+.task-item {
+  padding: 11px 12px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, opacity 0.18s ease;
+}
+
+.task-item:hover {
+  transform: translateX(2px);
+  border-color: rgba(255,255,255,0.10);
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+}
+
+.task-item.done {
+  opacity: 0.6;
+  background: rgba(255,255,255,0.018);
+}
+
+.task-check {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+}
+
+.task-cat {
+  padding: 5px 9px;
+  letter-spacing: 0.02em;
+}
+
+.task-del {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.task-item:hover .task-del {
+  opacity: 1;
+  background: rgba(255,255,255,0.04);
+}
+
+.timer-card {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(111,207,142,0.16), transparent 42%),
+    linear-gradient(160deg, rgba(18,28,34,0.98), rgba(10,15,20,1));
+  border-color: rgba(111,207,142,0.16);
+}
+
+.timer-card::before {
+  top: -70px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(111,207,142,0.16) 0%, transparent 72%);
+}
+
+.timer-card::after {
+  content: '';
+  position: absolute;
+  inset: auto 22px 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(111,207,142,0.24), transparent);
+}
+
+.timer-task-tag {
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, rgba(111,207,142,0.16), rgba(94,196,182,0.10));
+}
+
+.timer-display {
+  font-size: clamp(52px, 7vw, 64px);
+  text-shadow: 0 10px 28px rgba(111,207,142,0.16);
+}
+
+.timer-mode-name {
+  font-size: 11.5px;
+  color: rgba(236,237,245,0.48);
+}
+
+.btn-t {
+  transition: transform 0.16s ease, background 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.btn-side {
+  background: rgba(255,255,255,0.04);
+}
+
+.btn-side:hover {
+  transform: translateY(-1px);
+}
+
+.mode-tabs {
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.mode-tab {
+  padding: 6px 13px;
+  color: rgba(236,237,245,0.42);
+}
+
+.mode-tab:hover {
+  color: var(--text);
+  border-color: rgba(255,255,255,0.11);
+}
+
+.mode-tab.active {
+  box-shadow: 0 10px 24px rgba(111,207,142,0.12);
+}
+
+.sdot {
+  width: 10px;
+  height: 10px;
+  background: rgba(255,255,255,0.05);
+}
+
+#todayList {
+  min-height: 178px;
+}
+
+.today-empty {
+  font-size: 12px;
+  color: var(--text3);
+  text-align: center;
+  padding: 30px 0;
+  border: 1px dashed rgba(255,255,255,0.08);
+  border-radius: 14px;
+  background: rgba(255,255,255,0.018);
+}
+
+.today-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+
+.today-item:hover {
+  transform: translateX(2px);
+  border-color: rgba(255,255,255,0.10);
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+}
+
+.today-item-accent {
+  width: 4px;
+  height: 36px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  box-shadow: 0 0 16px rgba(255,255,255,0.06);
+}
+
+.today-item-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.today-item-title {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.today-item-meta {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+.today-item-time {
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: rgba(236,237,245,0.42);
+  flex-shrink: 0;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(111,207,142,0.12);
+}
+
+@media (max-width: 1180px) {
+  .page-modules {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .right-col {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 980px) {
+  body {
+    display: block;
+  }
+
+  .sidebar {
+    position: relative;
+    width: 100%;
+    min-height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .main {
+    margin-left: 0;
+    padding-top: 24px;
+  }
+}
+
+@media (max-width: 760px) {
+  .page-intro-title {
+    font-size: 28px;
+  }
+
+  .main {
+    padding: 22px 16px 32px;
+  }
+
+  .page-intro,
+  .topbar,
+  .week-header,
+  .task-input-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stats-row,
+  .right-col {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .clock-pill,
+  .btn-add-event,
+  .task-cat-select,
+  .btn-add {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .week-nav {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .modal {
+    padding: 22px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* TASK ANALYTICS */
+.task-analytics {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 14px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--bg2), var(--bg3));
+  box-shadow: var(--shadow-soft);
+}
+
+.task-analytics::before {
+  content: '';
+  position: absolute;
+  inset: 0 18px auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border2), transparent);
+}
+
+.task-analytics-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.task-analytics-title {
+  font-family: 'Lora', serif;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+}
+
+.task-analytics-sub {
+  margin-top: 3px;
+  font-size: 11px;
+  color: var(--text2);
+}
+
+.task-chart-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+}
+
+.task-chart-range,
+.task-chart-goal-btn {
+  min-width: 52px;
+  height: 32px;
+  padding: 0 10px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: transform 0.16s ease, background 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.task-chart-range:hover,
+.task-chart-goal-btn:hover {
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.task-chart-range.active,
+.task-chart-goal-btn.active {
+  background: linear-gradient(135deg, var(--teal), var(--green));
+  color: var(--theme-toggle-active-text, #f9fefe);
+  box-shadow: var(--theme-toggle-shadow, 0 12px 22px rgba(25, 150, 166, 0.18));
+}
+
+.task-chart-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.task-chart-goal {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.task-chart-goal-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.task-chart-goal-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+}
+
+.task-chart-goal-note {
+  font-size: 11px;
+  color: var(--text2);
+}
+
+.task-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 11px;
+  color: var(--text2);
+}
+
+.task-chart-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04);
+}
+
+.task-chart-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.task-chart-swatch-created {
+  background: var(--teal);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--teal) 18%, transparent);
+}
+
+.task-chart-swatch-done {
+  background: var(--green);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--green) 18%, transparent);
+}
+
+.task-chart-swatch-goal {
+  width: 18px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold), #ffd68a);
+  box-shadow: none;
+}
+
+.task-chart-shell {
+  position: relative;
+  height: 212px;
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255,255,255,0.14), transparent 26%),
+    linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.015));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+
+.task-chart-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.task-chart-grid-line {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.task-chart-baseline {
+  stroke: var(--border2);
+  stroke-width: 1.2;
+}
+
+.task-chart-area {
+  fill: color-mix(in srgb, var(--teal) 16%, transparent);
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: taskChartAreaLift 0.5s ease-out both;
+}
+
+.task-chart-line-shadow {
+  fill: none;
+  stroke-width: 10;
+  opacity: 0.16;
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: taskChartLineReveal 0.56s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.task-chart-line-goal {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.8;
+  stroke-dasharray: 4 6;
+  opacity: 0.95;
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: taskChartLineReveal 0.56s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.task-chart-bar-created,
+.task-chart-bar-done {
+  opacity: 0.85;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: taskChartBarRise 0.42s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.task-chart-bar-created {
+  fill: color-mix(in srgb, var(--teal) 38%, transparent);
+}
+
+.task-chart-bar-done {
+  fill: color-mix(in srgb, var(--green) 44%, transparent);
+}
+
+.task-chart-line-created,
+.task-chart-line-done {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: taskChartLineReveal 0.56s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.task-chart-line-created {
+  stroke: var(--teal);
+}
+
+.task-chart-line-done {
+  stroke: var(--green);
+  stroke-dasharray: 7 7;
+}
+
+.task-chart-dot {
+  cursor: pointer;
+  transition: transform 0.16s ease, opacity 0.16s ease;
+}
+
+.task-chart-dot:hover {
+  transform: scale(1.08);
+}
+
+.task-chart-dot.active {
+  stroke-width: 3;
+}
+
+.task-chart-guide-line {
+  stroke: var(--border2);
+  stroke-width: 1.2;
+  stroke-dasharray: 5 7;
+}
+
+.task-chart-dot-created {
+  fill: var(--teal);
+  stroke: var(--bg2);
+}
+
+.task-chart-dot-done {
+  fill: var(--green);
+  stroke: var(--bg2);
+}
+
+.task-chart-axis {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.task-chart-axis-item {
+  min-width: 0;
+  padding: 6px 4px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+
+.task-chart-axis-item:hover {
+  transform: translateY(-1px);
+  border-color: var(--border);
+  background: rgba(255,255,255,0.04);
+}
+
+.task-chart-axis-item.active {
+  border-color: var(--border2);
+  background: rgba(255,255,255,0.08);
+}
+
+.task-chart-axis-item {
+  text-align: center;
+}
+
+.task-chart-axis-day {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.task-chart-axis-date {
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--text3);
+}
+
+.task-chart-axis-item.active .task-chart-axis-day {
+  color: var(--teal);
+}
+
+.task-chart-axis-item.active .task-chart-axis-date {
+  color: var(--text);
+}
+
+.task-chart-detail {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.task-chart-detail-card {
+  position: relative;
+  overflow: hidden;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, var(--bg2), rgba(255,255,255,0.03));
+}
+
+.task-chart-detail-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 14px auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border2), transparent);
+}
+
+.task-chart-detail-label {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.task-chart-detail-value {
+  display: block;
+  margin-top: 5px;
+  font-family: 'Lora', serif;
+  font-size: 18px;
+  color: var(--text);
+}
+
+.task-chart-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text2);
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+}
+
+.task-chart-empty[hidden] {
+  display: none;
+}
+
+.task-chart-tooltip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  min-width: 176px;
+  max-width: 220px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--border2);
+  background: color-mix(in srgb, var(--card) 94%, white 6%);
+  box-shadow: 0 18px 32px rgba(15, 23, 42, 0.12);
+  backdrop-filter: blur(10px);
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0;
+  transform: translate(-50%, calc(-100% - 10px)) scale(0.96);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.task-chart-tooltip[hidden] {
+  display: none;
+}
+
+.task-chart-tooltip[data-visible="true"] {
+  opacity: 1;
+  transform: translate(-50%, calc(-100% - 14px)) scale(1);
+}
+
+.task-chart-tooltip-date {
+  font-family: 'Lora', serif;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.task-chart-tooltip-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.task-chart-tooltip-status {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+}
+
+.task-chart-tooltip-status.met {
+  color: var(--green);
+  background: color-mix(in srgb, var(--green) 14%, transparent);
+  border-color: color-mix(in srgb, var(--green) 22%, transparent);
+}
+
+.task-chart-tooltip-status.progress {
+  color: var(--teal);
+  background: color-mix(in srgb, var(--teal) 14%, transparent);
+  border-color: color-mix(in srgb, var(--teal) 22%, transparent);
+}
+
+.task-chart-tooltip-status.low {
+  color: var(--gold);
+  background: color-mix(in srgb, var(--gold) 16%, transparent);
+  border-color: color-mix(in srgb, var(--gold) 24%, transparent);
+}
+
+.task-chart-tooltip-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 5px 10px;
+  margin-top: 10px;
+}
+
+.task-chart-tooltip-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.task-chart-tooltip-swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.task-chart-tooltip-swatch.created {
+  background: var(--teal);
+}
+
+.task-chart-tooltip-swatch.done {
+  background: var(--green);
+}
+
+.task-chart-tooltip-swatch.goal {
+  width: 12px;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold), #ffd68a);
+}
+
+.task-chart-tooltip-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.task-chart-tooltip-value {
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+.task-chart-tooltip-value.goal {
+  color: var(--gold);
+}
+
+.task-chart-tooltip-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.task-chart-tooltip-summary-card {
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+}
+
+.task-chart-tooltip-summary-label {
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+
+.task-chart-tooltip-summary-value {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.task-chart-tooltip-summary-value.met {
+  color: var(--green);
+}
+
+.task-chart-tooltip-summary-value.progress {
+  color: var(--teal);
+}
+
+.task-chart-tooltip-summary-value.low {
+  color: var(--gold);
+}
+
+.task-chart-guide-badge {
+  fill: var(--bg2);
+  stroke: var(--border2);
+  stroke-width: 1;
+  animation: taskChartBadgeFloat 0.34s ease-out both;
+}
+
+.task-chart-guide-text {
+  fill: var(--text);
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.task-chart-guide-subtext {
+  fill: var(--text2);
+  font-size: 9px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+}
+
+@keyframes taskChartBarRise {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scaleY(0.76);
+  }
+  to {
+    opacity: 0.85;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+@keyframes taskChartLineReveal {
+  from {
+    opacity: 0;
+    transform: translateY(7px) scaleX(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleX(1);
+  }
+}
+
+@keyframes taskChartAreaLift {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scaleY(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+@keyframes taskChartBadgeFloat {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 760px) {
+  .task-analytics-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .task-chart-controls {
+    width: 100%;
+  }
+
+  .task-chart-range,
+  .task-chart-goal-btn {
+    flex: 1;
+  }
+
+  .task-chart-meta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .task-chart-goal-controls {
+    width: 100%;
+  }
+
+  .task-chart-detail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* THEME SWITCH */
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  box-shadow: var(--shadow-soft);
+}
+
+.theme-option {
+  min-width: 76px;
+  height: 38px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: transform 0.16s ease, background 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.theme-option:hover {
+  color: var(--text);
+  transform: translateY(-1px);
+}
+
+.theme-option.active {
+  background: linear-gradient(135deg, var(--teal), var(--green));
+  color: var(--theme-toggle-active-text, #f9fefe);
+  box-shadow: var(--theme-toggle-shadow, 0 12px 22px rgba(25, 150, 166, 0.18));
+}
+
+@media (max-width: 760px) {
+  .topbar-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .theme-switch {
+    width: 100%;
+  }
+
+  .theme-option {
+    flex: 1;
+  }
+}
+
+/* CLINICAL PREMIUM THEME */
+:root {
+  --bg: #f3fbfb;
+  --bg2: rgba(255, 255, 255, 0.94);
+  --bg3: #edf7f7;
+  --bg4: #dceeee;
+  --border: rgba(18, 76, 88, 0.12);
+  --border2: rgba(18, 76, 88, 0.18);
+  --green: #0f8f78;
+  --green-dim: rgba(15, 143, 120, 0.10);
+  --teal: #1996a6;
+  --teal-dim: rgba(25, 150, 166, 0.10);
+  --gold: #b68a43;
+  --gold-dim: rgba(182, 138, 67, 0.12);
+  --coral: #bf6d68;
+  --coral-dim: rgba(191, 109, 104, 0.12);
+  --sky: #2a7e95;
+  --sky-dim: rgba(42, 126, 149, 0.11);
+  --rose: #7a8ba6;
+  --rose-dim: rgba(122, 139, 166, 0.12);
+  --purple: #5f7f88;
+  --purple-dim: rgba(95, 127, 136, 0.12);
+  --text: #183d47;
+  --text2: #4f6d75;
+  --text3: #7d989f;
+  --shadow-soft: 0 18px 40px rgba(20, 77, 89, 0.08);
+  --shadow-card: 0 24px 50px rgba(20, 77, 89, 0.10);
+  --theme-toggle-active-text: #f9fefe;
+  --theme-toggle-shadow: 0 12px 22px rgba(25, 150, 166, 0.18);
+}
+
+body {
+  background:
+    radial-gradient(circle at 12% 10%, rgba(34, 211, 238, 0.10), transparent 24%),
+    radial-gradient(circle at 85% 8%, rgba(15, 143, 120, 0.08), transparent 22%),
+    linear-gradient(180deg, #f7fcfc 0%, #eef7f7 100%);
+  color: var(--text);
+}
+
+body::before {
+  background: rgba(34, 211, 238, 0.10);
+  opacity: 0.38;
+}
+
+body::after {
+  background: rgba(15, 143, 120, 0.09);
+  opacity: 0.32;
+}
+
+::selection {
+  background: rgba(25, 150, 166, 0.16);
+  color: var(--text);
+}
+
+.sidebar {
+  background: linear-gradient(180deg, rgba(247, 252, 252, 0.96), rgba(240, 248, 248, 0.94));
+  border-right: 1px solid rgba(24, 61, 71, 0.08);
+  box-shadow: 18px 0 38px rgba(21, 74, 84, 0.06);
+}
+
+.sidebar::before {
+  background: linear-gradient(90deg, transparent, rgba(25, 150, 166, 0.22), transparent);
+}
+
+.logo-mark {
+  background: linear-gradient(135deg, #d9f2f0, #bcebef);
+  border-color: rgba(25, 150, 166, 0.14);
+  color: #165160;
+  box-shadow: 0 12px 24px rgba(25, 150, 166, 0.10), inset 0 1px 0 rgba(255,255,255,0.85);
+}
+
+.logo-name em {
+  color: var(--teal);
+}
+
+.nav-label {
+  color: rgba(79, 109, 117, 0.72);
+}
+
+.nav-item {
+  color: var(--text2);
+}
+
+.nav-icon {
+  color: rgba(24, 61, 71, 0.44);
+}
+
+.nav-item:hover {
+  background: rgba(25, 150, 166, 0.06);
+  border-color: rgba(25, 150, 166, 0.10);
+  color: var(--text);
+}
+
+.nav-item.active {
+  background: linear-gradient(90deg, rgba(25, 150, 166, 0.10), rgba(15, 143, 120, 0.08));
+  border-color: rgba(25, 150, 166, 0.14);
+  color: var(--teal);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 14px 24px rgba(20, 77, 89, 0.06);
+}
+
+.user-row {
+  background: rgba(255,255,255,0.74);
+  border-color: rgba(24, 61, 71, 0.07);
+}
+
+.avatar {
+  background: linear-gradient(135deg, #c8ece9, #9adad4);
+  color: #18414a;
+}
+
+.main::before {
+  background: linear-gradient(180deg, rgba(25, 150, 166, 0.03), transparent);
+}
+
+.greeting em {
+  color: var(--teal);
+}
+
+.clock-pill {
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(244,250,250,0.94));
+  border-color: rgba(24, 61, 71, 0.09);
+  color: var(--text2);
+  box-shadow: var(--shadow-soft);
+}
+
+.live-dot {
+  background: var(--green);
+}
+
+.mini-stat {
+  background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(247,251,251,0.94));
+  border-color: rgba(24, 61, 71, 0.08);
+  box-shadow: var(--shadow-soft);
+}
+
+.mini-stat::after,
+.card::before {
+  background: linear-gradient(90deg, transparent, rgba(25, 150, 166, 0.14), transparent);
+}
+
+.mini-stat:hover {
+  border-color: rgba(25, 150, 166, 0.14);
+  box-shadow: 0 20px 42px rgba(20, 77, 89, 0.11);
+}
+
+.mini-stat-label,
+.card-sub,
+.greeting-sub,
+.week-label,
+.timer-mode-name,
+.today-item-meta {
+  color: var(--text2);
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(248,252,252,0.95));
+  border-color: rgba(24, 61, 71, 0.08);
+  box-shadow: var(--shadow-card);
+}
+
+.week-btn,
+.btn-cancel,
+.btn-delete-ev,
+.btn-side,
+.mode-tab {
+  background: rgba(237, 247, 247, 0.92);
+  border-color: rgba(24, 61, 71, 0.10) !important;
+  color: var(--text2);
+}
+
+.week-btn:hover,
+.btn-cancel:hover,
+.btn-delete-ev:hover,
+.btn-side:hover,
+.mode-tab:hover {
+  background: rgba(222, 238, 238, 0.92);
+  color: var(--text);
+}
+
+.btn-add-event,
+.btn-add,
+.btn-save,
+.btn-play {
+  background: linear-gradient(135deg, #1ea6b4, #13907b);
+  color: #f9fefe;
+  border: none;
+  box-shadow: 0 16px 28px rgba(25, 150, 166, 0.18);
+}
+
+.btn-add-event:hover,
+.btn-add:hover,
+.btn-save:hover,
+.btn-play:hover {
+  background: linear-gradient(135deg, #1898a6, #107c69);
+  box-shadow: 0 18px 30px rgba(25, 150, 166, 0.22);
+}
+
+.sched-wrap {
+  background: rgba(242, 249, 249, 0.92);
+  border-color: rgba(24, 61, 71, 0.08);
+}
+
+.sched-day-hd {
+  background: rgba(255,255,255,0.72);
+}
+
+.sched-day-hd.today {
+  background: linear-gradient(180deg, rgba(25, 150, 166, 0.10), rgba(15, 143, 120, 0.05));
+  border-color: rgba(25, 150, 166, 0.14);
+}
+
+.sched-day-hd.today .sched-day-name {
+  color: var(--teal);
+}
+
+.sched-day-hd.today .sched-day-num {
+  color: #ffffff;
+  background: linear-gradient(135deg, #1ea6b4, #13907b);
+  box-shadow: 0 10px 22px rgba(25, 150, 166, 0.16);
+}
+
+.sched-hour-label {
+  color: rgba(24, 61, 71, 0.45);
+}
+
+.sched-cell {
+  background: rgba(255,255,255,0.66);
+  border-color: rgba(24, 61, 71, 0.07);
+}
+
+.sched-cell:hover {
+  background: rgba(228, 243, 243, 0.98);
+  border-color: rgba(25, 150, 166, 0.16);
+}
+
+.event-block {
+  box-shadow: 0 10px 16px rgba(20, 77, 89, 0.08), inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.modal-overlay {
+  background: rgba(15, 53, 60, 0.24);
+}
+
+.modal {
+  background: linear-gradient(180deg, rgba(255,255,255,0.99), rgba(248,252,252,0.98));
+  border-color: rgba(24, 61, 71, 0.10);
+  box-shadow: 0 32px 64px rgba(20, 77, 89, 0.14);
+}
+
+.form-input,
+.form-select,
+.task-input,
+.task-cat-select {
+  background: rgba(249, 252, 252, 0.98);
+  border-color: rgba(24, 61, 71, 0.10);
+  color: var(--text);
+}
+
+.form-select option,
+.task-cat-select option {
+  background: #ffffff;
+  color: var(--text);
+}
+
+.form-input::placeholder,
+.task-input::placeholder {
+  color: rgba(79, 109, 117, 0.72);
+}
+
+.form-input:focus,
+.form-select:focus,
+.task-input:focus,
+.task-cat-select:focus,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  border-color: rgba(25, 150, 166, 0.36);
+  box-shadow: 0 0 0 4px rgba(25, 150, 166, 0.12);
+}
+
+.task-item,
+.today-item {
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(245,250,250,0.95));
+  border-color: rgba(24, 61, 71, 0.08);
+}
+
+.task-item:hover,
+.today-item:hover {
+  border-color: rgba(25, 150, 166, 0.14);
+  background: linear-gradient(180deg, rgba(247,252,252,1), rgba(238,247,247,0.98));
+}
+
+.task-item.done {
+  background: rgba(239, 247, 247, 0.88);
+}
+
+.task-check {
+  border-color: rgba(24, 61, 71, 0.18);
+}
+
+.task-item.done .task-check {
+  background: var(--green);
+  border-color: var(--green);
+  color: #ffffff;
+}
+
+.task-del {
+  color: rgba(24, 61, 71, 0.44);
+}
+
+.today-empty {
+  background: rgba(248, 252, 252, 0.9);
+  border-color: rgba(24, 61, 71, 0.10);
+}
+
+.today-item-time {
+  color: rgba(24, 61, 71, 0.54);
+}
+
+.timer-card {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(34, 211, 238, 0.16), transparent 30%),
+    linear-gradient(180deg, rgba(255,255,255,0.98), rgba(243,250,250,0.96));
+  border-color: rgba(25, 150, 166, 0.12);
+}
+
+.timer-card::before {
+  background: radial-gradient(circle, rgba(25, 150, 166, 0.12) 0%, transparent 72%);
+}
+
+.timer-card::after {
+  background: linear-gradient(90deg, transparent, rgba(25, 150, 166, 0.18), transparent);
+}
+
+.timer-task-tag {
+  background: rgba(25, 150, 166, 0.08);
+  border-color: rgba(25, 150, 166, 0.14);
+  color: var(--teal);
+}
+
+.timer-display {
+  color: var(--text);
+  text-shadow: none;
+}
+
+.mode-tab.active {
+  background: rgba(25, 150, 166, 0.10);
+  border-color: rgba(25, 150, 166, 0.18);
+  color: var(--teal);
+  box-shadow: none;
+}
+
+.sdot {
+  background: rgba(24, 61, 71, 0.10);
+  border-color: rgba(24, 61, 71, 0.14);
+}
+
+.sdot.done {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c8dcdc;
+}
+
+@media (max-width: 980px) {
+  .sidebar {
+    border-right: none;
+    border-bottom: 1px solid rgba(24, 61, 71, 0.08);
+  }
+}
+
+/* DARK THEME */
+body.theme-dark {
+  --bg: #081412;
+  --bg2: rgba(13, 22, 27, 0.94);
+  --bg3: rgba(19, 31, 38, 0.92);
+  --bg4: #21333b;
+  --border: rgba(226, 240, 233, 0.08);
+  --border2: rgba(210, 237, 224, 0.18);
+  --green: #6fcf8e;
+  --green-dim: rgba(111, 207, 142, 0.14);
+  --teal: #5ec4b6;
+  --teal-dim: rgba(94, 196, 182, 0.14);
+  --gold: #d7b366;
+  --gold-dim: rgba(215, 179, 102, 0.14);
+  --coral: #d6867c;
+  --coral-dim: rgba(214, 134, 124, 0.14);
+  --sky: #72b8d8;
+  --sky-dim: rgba(114, 184, 216, 0.14);
+  --rose: #9db0c8;
+  --rose-dim: rgba(157, 176, 200, 0.14);
+  --purple: #8fa8b2;
+  --purple-dim: rgba(143, 168, 178, 0.14);
+  --text: #ecedf5;
+  --text2: #9aa9b4;
+  --text3: #5f737a;
+  --shadow-soft: 0 22px 48px rgba(0, 0, 0, 0.22);
+  --shadow-card: 0 24px 54px rgba(0, 0, 0, 0.26);
+  --theme-toggle-active-text: #081412;
+  --theme-toggle-shadow: 0 12px 22px rgba(111, 207, 142, 0.22);
+  background:
+    radial-gradient(circle at 12% 10%, rgba(111, 207, 142, 0.14), transparent 26%),
+    radial-gradient(circle at 88% 8%, rgba(106, 174, 212, 0.10), transparent 22%),
+    radial-gradient(circle at 50% 100%, rgba(94, 196, 182, 0.09), transparent 30%),
+    linear-gradient(180deg, #081412 0%, #0a1014 52%, #070b0e 100%);
+  color: var(--text);
+}
+
+body.theme-dark::before {
+  background: rgba(111, 207, 142, 0.10);
+  opacity: 0.55;
+}
+
+body.theme-dark::after {
+  background: rgba(106, 174, 212, 0.08);
+  opacity: 0.5;
+}
+
+body.theme-dark .sidebar {
+  background: linear-gradient(180deg, rgba(10, 19, 24, 0.94), rgba(9, 15, 20, 0.96));
+  border-right: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 22px 0 60px rgba(0,0,0,0.22);
+}
+
+body.theme-dark .sidebar::before {
+  background: linear-gradient(90deg, transparent, rgba(111, 207, 142, 0.38), transparent);
+}
+
+body.theme-dark .logo-mark {
+  background: linear-gradient(135deg, var(--green), var(--teal));
+  border-color: rgba(255,255,255,0.08);
+  color: #07110f;
+  box-shadow: 0 12px 26px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.22);
+}
+
+body.theme-dark .logo-name em,
+body.theme-dark .greeting em {
+  color: var(--green);
+}
+
+body.theme-dark .nav-label {
+  color: rgba(154, 169, 180, 0.56);
+}
+
+body.theme-dark .nav-item {
+  color: var(--text2);
+}
+
+body.theme-dark .nav-icon {
+  color: rgba(236,237,245,0.45);
+}
+
+body.theme-dark .nav-item:hover {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.05);
+  color: var(--text);
+}
+
+body.theme-dark .nav-item.active {
+  background: linear-gradient(90deg, rgba(111,207,142,0.16), rgba(94,196,182,0.08));
+  border-color: rgba(111,207,142,0.22);
+  color: var(--green);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 16px 30px rgba(0,0,0,0.18);
+}
+
+body.theme-dark .user-row {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.05);
+}
+
+body.theme-dark .avatar {
+  background: linear-gradient(135deg, var(--green), var(--teal));
+  color: #0b0c10;
+}
+
+body.theme-dark .main::before {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+}
+
+body.theme-dark .clock-pill,
+body.theme-dark .theme-switch {
+  background: linear-gradient(180deg, rgba(17,28,34,0.88), rgba(10,17,21,0.92));
+  border-color: rgba(255,255,255,0.08);
+  color: var(--text2);
+  box-shadow: var(--shadow-soft);
+}
+
+body.theme-dark .mini-stat {
+  background: linear-gradient(180deg, rgba(15,24,29,0.92), rgba(10,17,21,0.96));
+  border-color: rgba(255,255,255,0.06);
+  box-shadow: var(--shadow-soft);
+}
+
+body.theme-dark .mini-stat::after,
+body.theme-dark .card::before {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent);
+}
+
+body.theme-dark .mini-stat:hover {
+  border-color: rgba(255,255,255,0.11);
+  box-shadow: 0 24px 54px rgba(0,0,0,0.30);
+}
+
+body.theme-dark .mini-stat-label,
+body.theme-dark .card-sub,
+body.theme-dark .greeting-sub,
+body.theme-dark .week-label,
+body.theme-dark .timer-mode-name,
+body.theme-dark .today-item-meta {
+  color: rgba(236,237,245,0.62);
+}
+
+body.theme-dark .card {
+  background: linear-gradient(180deg, rgba(14,22,27,0.94), rgba(9,15,19,0.98));
+  border-color: rgba(255,255,255,0.06);
+  box-shadow: var(--shadow-card);
+}
+
+body.theme-dark .week-btn,
+body.theme-dark .btn-cancel,
+body.theme-dark .btn-delete-ev,
+body.theme-dark .btn-side,
+body.theme-dark .mode-tab {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.10) !important;
+  color: var(--text2);
+}
+
+body.theme-dark .week-btn:hover,
+body.theme-dark .btn-cancel:hover,
+body.theme-dark .btn-delete-ev:hover,
+body.theme-dark .btn-side:hover,
+body.theme-dark .mode-tab:hover {
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+}
+
+body.theme-dark .btn-add-event,
+body.theme-dark .btn-add,
+body.theme-dark .btn-save,
+body.theme-dark .btn-play {
+  background: linear-gradient(135deg, var(--green), var(--teal));
+  color: #081412;
+  box-shadow: 0 16px 28px rgba(111, 207, 142, 0.22);
+}
+
+body.theme-dark .btn-add-event:hover,
+body.theme-dark .btn-add:hover,
+body.theme-dark .btn-save:hover,
+body.theme-dark .btn-play:hover {
+  background: linear-gradient(135deg, #7ed89b, #66d0c1);
+  box-shadow: 0 18px 30px rgba(111, 207, 142, 0.28);
+}
+
+body.theme-dark .sched-wrap {
+  background: rgba(255,255,255,0.025);
+  border-color: rgba(255,255,255,0.05);
+}
+
+body.theme-dark .sched-day-hd {
+  background: rgba(255,255,255,0.025);
+}
+
+body.theme-dark .sched-day-hd.today {
+  background: linear-gradient(180deg, rgba(111,207,142,0.12), rgba(94,196,182,0.04));
+  border-color: rgba(111,207,142,0.18);
+}
+
+body.theme-dark .sched-day-hd.today .sched-day-name {
+  color: var(--green);
+}
+
+body.theme-dark .sched-day-hd.today .sched-day-num {
+  color: #081412;
+  background: var(--green);
+  box-shadow: 0 10px 22px rgba(111,207,142,0.22);
+}
+
+body.theme-dark .sched-hour-label {
+  color: rgba(236,237,245,0.38);
+}
+
+body.theme-dark .sched-cell {
+  background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.01));
+  border-color: rgba(255,255,255,0.06);
+}
+
+body.theme-dark .sched-cell:hover {
+  background: rgba(255,255,255,0.045);
+  border-color: rgba(111,207,142,0.18);
+}
+
+body.theme-dark .event-block {
+  box-shadow: 0 12px 20px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+body.theme-dark .modal-overlay {
+  background: rgba(4,8,10,0.72);
+}
+
+body.theme-dark .modal {
+  background: linear-gradient(180deg, rgba(15,23,28,0.98), rgba(10,15,19,1));
+  border-color: rgba(255,255,255,0.08);
+  box-shadow: 0 34px 70px rgba(0,0,0,0.42);
+}
+
+body.theme-dark .form-input,
+body.theme-dark .form-select,
+body.theme-dark .task-input,
+body.theme-dark .task-cat-select {
+  background: rgba(255,255,255,0.035);
+  border-color: rgba(255,255,255,0.09);
+  color: var(--text);
+}
+
+body.theme-dark .form-select option,
+body.theme-dark .task-cat-select option {
+  background: #172127;
+  color: var(--text);
+}
+
+body.theme-dark .form-input::placeholder,
+body.theme-dark .task-input::placeholder {
+  color: rgba(154, 169, 180, 0.68);
+}
+
+body.theme-dark .form-input:focus,
+body.theme-dark .form-select:focus,
+body.theme-dark .task-input:focus,
+body.theme-dark .task-cat-select:focus,
+body.theme-dark button:focus-visible,
+body.theme-dark input:focus-visible,
+body.theme-dark select:focus-visible {
+  border-color: rgba(111,207,142,0.48);
+  box-shadow: 0 0 0 4px rgba(111,207,142,0.10);
+}
+
+body.theme-dark .task-item,
+body.theme-dark .today-item {
+  background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.02));
+  border-color: rgba(255,255,255,0.06);
+}
+
+body.theme-dark .task-item:hover,
+body.theme-dark .today-item:hover {
+  border-color: rgba(255,255,255,0.10);
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+}
+
+body.theme-dark .task-item.done {
+  background: rgba(255,255,255,0.018);
+}
+
+body.theme-dark .task-check {
+  border-color: rgba(255,255,255,0.16);
+}
+
+body.theme-dark .task-item.done .task-check {
+  background: var(--green);
+  border-color: var(--green);
+  color: #081412;
+}
+
+body.theme-dark .task-del {
+  color: rgba(236,237,245,0.42);
+}
+
+body.theme-dark .today-empty {
+  background: rgba(255,255,255,0.018);
+  border-color: rgba(255,255,255,0.08);
+}
+
+body.theme-dark .today-item-time {
+  color: rgba(236,237,245,0.42);
+}
+
+body.theme-dark .timer-card {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(111,207,142,0.16), transparent 42%),
+    linear-gradient(160deg, rgba(18,28,34,0.98), rgba(10,15,20,1));
+  border-color: rgba(111,207,142,0.16);
+}
+
+body.theme-dark .timer-card::before {
+  background: radial-gradient(circle, rgba(111,207,142,0.16) 0%, transparent 72%);
+}
+
+body.theme-dark .timer-card::after {
+  background: linear-gradient(90deg, transparent, rgba(111,207,142,0.24), transparent);
+}
+
+body.theme-dark .timer-task-tag {
+  background: linear-gradient(135deg, rgba(111,207,142,0.16), rgba(94,196,182,0.10));
+  border-color: rgba(111,207,142,0.18);
+  color: var(--green);
+}
+
+body.theme-dark .timer-display {
+  color: var(--text);
+  text-shadow: 0 10px 28px rgba(111,207,142,0.16);
+}
+
+body.theme-dark .mode-tab.active {
+  background: rgba(111,207,142,0.14);
+  border-color: rgba(111,207,142,0.24);
+  color: var(--green);
+}
+
+body.theme-dark .sdot {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.12);
+}
+
+body.theme-dark .sdot.done {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+body.theme-dark ::-webkit-scrollbar-thumb {
+  background: #304047;
+}
+
+body.theme-dark .theme-option {
+  color: var(--text2);
+}
+
+body.theme-dark .theme-option:hover {
+  color: var(--text);
+}
+
+body.theme-dark .theme-option.active {
+  background: linear-gradient(135deg, var(--green), var(--teal));
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 10px; }
+</style>
+<link rel="stylesheet" href="nutriplan-command-center.css">
+</head>
+<body class="theme-dark page-dashboard" data-page="dashboard">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-mark">NP</div>
+    <div class="logo-name">Nutri<em>Plan</em></div>
+  </div>
+
+  <div class="nav-label">Visão Geral</div>
+  <a class="nav-item active" data-nav-page="dashboard" href="nutriplan-dashboard.html"><span class="nav-icon">01</span> Dashboard</a>
+  <a class="nav-item" data-nav-page="agenda" href="nutriplan-agenda.html"><span class="nav-icon">02</span> Agenda</a>
+  <a class="nav-item" data-nav-page="tarefas" href="nutriplan-tarefas.html"><span class="nav-icon">03</span> Tarefas</a>
+  <a class="nav-item" data-nav-page="timer" href="nutriplan-timer.html"><span class="nav-icon">04</span> Timer</a>
+  <a class="nav-item" data-nav-page="conteudo" href="nutriplan-conteudo.html"><span class="nav-icon">05</span> Conteudo</a>
+
+  <div class="nav-label">Categorias</div>
+  <div class="nav-item"><span style="color:var(--green)">●</span> Consultas</div>
+  <div class="nav-item"><span style="color:var(--rose)">●</span> Social Selling</div>
+  <div class="nav-item"><span style="color:var(--sky)">●</span> Administrativo</div>
+  <div class="nav-item"><span style="color:var(--gold)">●</span> Reuniões</div>
+  <div class="nav-item"><span style="color:var(--purple)">●</span> Pessoal</div>
+  <div class="nav-item"><span style="color:var(--teal)">●</span> Outros</div>
+
+  <div class="sidebar-bottom">
+    <div class="user-row">
+      <div class="avatar">N</div>
+      <div>
+        <div class="user-name">Nutricionista</div>
+        <div class="user-role">CRN · Profissional</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div>
+      <div class="greeting">Olá, <em>bem-vinda!</em></div>
+      <div class="greeting-sub" id="dateStr">—</div>
+    </div>
+    <div class="topbar-actions">
+      <div class="theme-switch" role="group" aria-label="Escolher tema">
+        <button class="theme-option" type="button" data-theme-option="clean" onclick="setTheme('clean')">Clean</button>
+        <button class="theme-option active" type="button" data-theme-option="dark" onclick="setTheme('dark')">Dark</button>
+      </div>
+      <div class="clock-pill">
+        <div class="live-dot"></div>
+        <span id="clockStr">00:00</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="page-intro" aria-label="Resumo da página">
+    <div class="page-intro-copy">
+      <span class="page-intro-badge" id="pageIntroBadge">Visão Geral</span>
+      <h1 class="page-intro-title" id="pageIntroTitle">Escolha um módulo e trabalhe com mais clareza</h1>
+      <p class="page-intro-lead" id="pageIntroLead">Separei as funções para que cada área tenha sua própria página, mais limpa e mais fácil de usar.</p>
+    </div>
+  </section>
+
+  <section class="page-modules" aria-label="Módulos do NutriPlan">
+    <a class="module-card" href="nutriplan-agenda.html">
+      <span class="module-card-kicker">Agenda</span>
+      <strong class="module-card-title">Planejamento da semana</strong>
+      <p class="module-card-text">Veja sua grade completa, navegue entre semanas e organize compromissos sem distrações.</p>
+      <span class="module-card-link">Abrir agenda</span>
+    </a>
+    <a class="module-card" href="nutriplan-tarefas.html">
+      <span class="module-card-kicker">Tarefas</span>
+      <strong class="module-card-title">Execução e produtividade</strong>
+      <p class="module-card-text">Centralize a lista de tarefas, acompanhe o gráfico diário e mantenha o ritmo da operação.</p>
+      <span class="module-card-link">Abrir tarefas</span>
+    </a>
+    <a class="module-card" href="nutriplan-timer.html">
+      <span class="module-card-kicker">Timer</span>
+      <strong class="module-card-title">Sessões de foco</strong>
+      <p class="module-card-text">Use o pomodoro em uma página dedicada, com menos ruído e mais concentração.</p>
+      <span class="module-card-link">Abrir timer</span>
+    </a>
+    <a class="module-card" href="nutriplan-conteudo.html">
+      <span class="module-card-kicker">Conteudo</span>
+      <strong class="module-card-title">Ideias, formatos e pipeline</strong>
+      <p class="module-card-text">Organize ganchos, roteiros curtos e o que ja esta pronto para postar em um painel dedicado.</p>
+      <span class="module-card-link">Abrir studio</span>
+    </a>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="mini-stat">
+      <div class="mini-stat-icon" style="background:var(--green-dim)">CL</div>
+      <div>
+        <div class="mini-stat-val" style="color:var(--green)" id="countConsultas">0</div>
+        <div class="mini-stat-label">Consultas esta semana</div>
+      </div>
+    </div>
+    <div class="mini-stat">
+      <div class="mini-stat-icon" style="background:var(--rose-dim)">SS</div>
+      <div>
+        <div class="mini-stat-val" style="color:var(--rose)" id="countSocial">0</div>
+        <div class="mini-stat-label">Social Selling</div>
+      </div>
+    </div>
+    <div class="mini-stat">
+      <div class="mini-stat-icon" style="background:var(--gold-dim)">OK</div>
+      <div>
+        <div class="mini-stat-val" style="color:var(--gold)" id="countDone">0</div>
+        <div class="mini-stat-label">Tarefas concluídas</div>
+      </div>
+    </div>
+    <div class="mini-stat">
+      <div class="mini-stat-icon" style="background:var(--sky-dim)">PD</div>
+      <div>
+        <div class="mini-stat-val" style="color:var(--sky)" id="countPending">0</div>
+        <div class="mini-stat-label">Pendentes hoje</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAYOUT -->
+  <div class="layout">
+    <div class="left-col">
+
+      <!-- WEEKLY SCHEDULE -->
+      <div class="card section-schedule">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Minha Semana</div>
+            <div class="card-sub">Clique em qualquer horário para adicionar</div>
+          </div>
+        </div>
+
+        <div class="week-header">
+          <div class="week-nav">
+            <button class="week-btn" onclick="changeWeek(-1)">‹</button>
+            <span class="week-label" id="weekLabel">—</span>
+            <button class="week-btn" onclick="changeWeek(1)">›</button>
+          </div>
+          <button class="btn-add-event" onclick="openModal()">+ Adicionar</button>
+        </div>
+
+        <div class="sched-wrap">
+          <div class="sched-grid" id="schedGrid"></div>
+        </div>
+      </div>
+
+      <!-- TASKS -->
+      <div class="card section-tasks">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Lista de Tarefas</div>
+            <div class="card-sub" id="taskSub">0 de 0 concluídas</div>
+          </div>
+          <div style="font-size:11px;color:var(--coral);cursor:pointer;font-weight:600" onclick="clearDone()">Limpar feitas</div>
+        </div>
+
+        <div class="task-input-row">
+          <input class="task-input" id="taskInput" placeholder="Ex: Montar plano alimentar, Postar no Instagram…" onkeydown="if(event.key==='Enter')addTask()">
+          <select class="task-cat-select" id="taskCatSel">
+            <option value="consulta">Consulta</option>
+            <option value="social">Social</option>
+            <option value="admin">Admin</option>
+            <option value="reuniao">Reunião</option>
+            <option value="personal">Pessoal</option>
+            <option value="outros">Outros</option>
+          </select>
+          <button class="btn-add" onclick="addTask()">+</button>
+        </div>
+
+        <div class="task-analytics">
+          <div class="task-analytics-head">
+            <div>
+              <div class="task-analytics-title">Fluxo Diário</div>
+              <div class="task-analytics-sub" id="taskChartPeriod">Últimos 7 dias</div>
+            </div>
+            <div class="task-chart-controls" role="group" aria-label="Período do gráfico de tarefas">
+              <button class="task-chart-range active" type="button" data-task-range="7" onclick="setTaskRange(7)">7D</button>
+              <button class="task-chart-range" type="button" data-task-range="14" onclick="setTaskRange(14)">14D</button>
+              <button class="task-chart-range" type="button" data-task-range="30" onclick="setTaskRange(30)">30D</button>
+            </div>
+          </div>
+
+          <div class="task-chart-legend">
+            <div class="task-chart-legend-item"><span class="task-chart-swatch task-chart-swatch-created"></span>Planejadas</div>
+            <div class="task-chart-legend-item"><span class="task-chart-swatch task-chart-swatch-done"></span>Concluídas</div>
+            <div class="task-chart-legend-item"><span class="task-chart-swatch task-chart-swatch-goal"></span>Meta</div>
+          </div>
+
+          <div class="task-chart-meta">
+            <div class="task-chart-goal">
+              <span class="task-chart-goal-label">Meta Diária</span>
+              <div class="task-chart-goal-controls" role="group" aria-label="Meta diária de tarefas">
+                <button class="task-chart-goal-btn active" type="button" data-task-goal="2" onclick="setTaskGoal(2)">2/D</button>
+                <button class="task-chart-goal-btn" type="button" data-task-goal="4" onclick="setTaskGoal(4)">4/D</button>
+                <button class="task-chart-goal-btn" type="button" data-task-goal="6" onclick="setTaskGoal(6)">6/D</button>
+              </div>
+            </div>
+            <div class="task-chart-goal-note" id="taskChartGoalNote">Meta: 2 tarefas/dia</div>
+          </div>
+
+          <div class="task-chart-shell">
+            <svg class="task-chart-svg" id="taskChartSvg" viewBox="0 0 560 190" preserveAspectRatio="none" aria-label="Gráfico diário de tarefas"></svg>
+            <div class="task-chart-tooltip" id="taskChartTooltip" hidden></div>
+            <div class="task-chart-empty" id="taskChartEmpty" hidden>Adicione ou conclua tarefas para começar a ver a curva diária.</div>
+          </div>
+
+          <div class="task-chart-axis" id="taskChartAxis"></div>
+
+          <div class="task-chart-detail" id="taskChartDetail">
+            <div class="task-chart-detail-card">
+              <span class="task-chart-detail-label">Dia</span>
+              <strong class="task-chart-detail-value" id="taskChartDayLabel">Hoje</strong>
+            </div>
+            <div class="task-chart-detail-card">
+              <span class="task-chart-detail-label">Criadas</span>
+              <strong class="task-chart-detail-value" id="taskChartCreatedValue">0</strong>
+            </div>
+            <div class="task-chart-detail-card">
+              <span class="task-chart-detail-label">Concluídas</span>
+              <strong class="task-chart-detail-value" id="taskChartDoneValue">0</strong>
+            </div>
+            <div class="task-chart-detail-card">
+              <span class="task-chart-detail-label">Saldo</span>
+              <strong class="task-chart-detail-value" id="taskChartBalanceValue">0</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="task-list" id="taskList"></div>
+      </div>
+
+    </div><!-- /left -->
+
+    <!-- RIGHT COL -->
+    <div class="right-col">
+
+      <!-- TIMER -->
+      <div class="card timer-card section-timer">
+        <div class="card-head" style="justify-content:center;margin-bottom:10px">
+          <div>
+            <div class="card-title">Foco / Timer</div>
+            <div class="card-sub">Sessão de trabalho</div>
+          </div>
+        </div>
+
+        <div class="timer-task-tag" id="timerLabel">FOCO LIVRE</div>
+
+        <div class="timer-display" id="timerDisplay">25:00</div>
+        <div class="timer-mode-name" id="timerModeName">Pomodoro — Foco</div>
+
+        <div class="timer-controls">
+          <button class="btn-t btn-side" onclick="resetTimer()">RESET</button>
+          <button class="btn-t btn-play" id="playBtn" onclick="toggleTimer()">START</button>
+          <button class="btn-t btn-side" onclick="skipTimer()">NEXT</button>
+        </div>
+
+        <div class="mode-tabs">
+          <button class="mode-tab active" onclick="setMode(this,25,'Foco')">25' Foco</button>
+          <button class="mode-tab" onclick="setMode(this,5,'Pausa')">5' Pausa</button>
+          <button class="mode-tab" onclick="setMode(this,15,'Longa')">15' Longa</button>
+          <button class="mode-tab" onclick="setMode(this,50,'Deep')">50' Deep</button>
+        </div>
+
+        <div class="session-dots" id="sessionDots">
+          <div class="sdot done"></div>
+          <div class="sdot"></div>
+          <div class="sdot"></div>
+          <div class="sdot"></div>
+        </div>
+      </div>
+
+      <!-- TODAY'S EVENTS -->
+      <div class="card section-today">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Hoje</div>
+            <div class="card-sub" id="todayDateLabel">—</div>
+          </div>
+        </div>
+        <div id="todayList" style="display:flex;flex-direction:column;gap:7px;">
+          <div style="font-size:12px;color:var(--text3);text-align:center;padding:20px 0">
+            Nenhum evento hoje.<br>Clique na grade para adicionar!
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /right -->
+  </div>
+</main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle">Novo Evento</div>
+
+    <div class="form-group">
+      <label class="form-label">Título do evento</label>
+      <input class="form-input" id="evTitle" placeholder="Ex: Atender cliente Ana, Postar Stories…">
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Dia da semana</label>
+        <select class="form-select" id="evDay">
+          <option value="0">Segunda</option>
+          <option value="1">Terça</option>
+          <option value="2">Quarta</option>
+          <option value="3">Quinta</option>
+          <option value="4">Sexta</option>
+          <option value="5">Sábado</option>
+          <option value="6">Domingo</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Horário</label>
+        <select class="form-select" id="evHour"></select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Duração</label>
+      <select class="form-select" id="evDuration">
+        <option value="1">30 minutos</option>
+        <option value="2" selected>1 hora</option>
+        <option value="3">1h30</option>
+        <option value="4">2 horas</option>
+        <option value="6">3 horas</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Categoria</label>
+      <select class="form-select" id="evCat">
+        <option value="consulta">Consulta / Atendimento</option>
+        <option value="social">Social Selling / Conteúdo</option>
+        <option value="admin">Administrativo</option>
+        <option value="reuniao">Reunião</option>
+        <option value="personal">Pessoal</option>
+        <option value="outros">Outros</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Observação (opcional)</label>
+      <input class="form-input" id="evNote" placeholder="Detalhes, cliente, link…">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-delete-ev" id="btnDelete" style="display:none" onclick="deleteEvent()">Excluir</button>
+      <button class="btn-save" onclick="saveEvent()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── HELPERS ─────────────────────────────────────────
+const $ = id => document.getElementById(id);
+
+const CAT_CLASS = {
+  consulta:'ev-consulta', social:'ev-social', admin:'ev-admin',
+  reuniao:'ev-reuniao', personal:'ev-personal', outros:'ev-outros'
+};
+const CAT_LABEL = {
+  consulta:'Consulta', social:'Social Selling', admin:'Administrativo',
+  reuniao:'Reunião', personal:'Pessoal', outros:'Outros'
+};
+const CAT_COLOR = {
+  consulta:'var(--green)', social:'var(--rose)', admin:'var(--sky)',
+  reuniao:'var(--gold)', personal:'var(--purple)', outros:'var(--teal)'
+};
+const CAT_BG = {
+  consulta:'var(--green-dim)', social:'var(--rose-dim)', admin:'var(--sky-dim)',
+  reuniao:'var(--gold-dim)', personal:'var(--purple-dim)', outros:'var(--teal-dim)'
+};
+
+const DAYS_PT = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const DAYS_FULL = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const MONTHS_PT = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+// hours shown in grid
+const HOURS = ['07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00'];
+
+// ── STATE ────────────────────────────────────────────
+let weekOffset = 0; // 0 = current week
+let events = JSON.parse(localStorage.getItem('nutriplan_events') || '[]');
+let tasks  = JSON.parse(localStorage.getItem('nutriplan_tasks')  || '[]');
+let editingId = null;
+const THEME_KEY = 'nutriplan_theme_command_center';
+const savedTheme = localStorage.getItem(THEME_KEY) || 'dark';
+
+function syncThemeControls(theme) {
+  document.querySelectorAll('[data-theme-option]').forEach(btn => {
+    const isActive = btn.dataset.themeOption === theme;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  });
+}
+
+function applyTheme(theme, persist = true) {
+  const nextTheme = theme === 'dark' ? 'dark' : 'clean';
+  document.body.classList.remove('theme-clean', 'theme-dark');
+  document.body.classList.add('theme-' + nextTheme);
+  document.body.setAttribute('data-theme', nextTheme);
+  syncThemeControls(nextTheme);
+  if(persist) localStorage.setItem(THEME_KEY, nextTheme);
+}
+
+function setTheme(theme) {
+  applyTheme(theme);
+}
+
+applyTheme(savedTheme, false);
+
+const PAGE_COPY = {
+  dashboard: {
+    badge: 'Visão Geral',
+    title: 'Escolha um módulo e trabalhe com mais clareza',
+    lead: 'Separei as funções para que cada área tenha sua própria página, mais limpa e mais fácil de usar.'
+  },
+  agenda: {
+    badge: 'Agenda',
+    title: 'Sua semana em uma página dedicada',
+    lead: 'Organize horários, avance entre semanas e mantenha a agenda limpa, sem competir com outras áreas do sistema.'
+  },
+  tarefas: {
+    badge: 'Tarefas',
+    title: 'Execução focada no que precisa ser feito',
+    lead: 'Centralize a lista de tarefas e acompanhe o gráfico diário em uma página feita só para produtividade.'
+  },
+  timer: {
+    badge: 'Timer',
+    title: 'Foco profundo em um ambiente mais calmo',
+    lead: 'Use o pomodoro em uma página mais limpa, com menos ruído e mais presença para a sessão atual.'
+  }
+};
+
+const PAGE_GREETING = {
+  dashboard: 'Central <em>operacional</em>',
+  agenda: 'Agenda <em>da semana</em>',
+  tarefas: 'Execucao <em>diaria</em>',
+  timer: 'Sessao <em>de foco</em>'
+};
+
+Object.assign(PAGE_COPY, {
+  dashboard: {
+    badge: 'Command Center',
+    title: 'Controle agenda, tarefas e foco em uma visao central',
+    lead: 'Use modulos dedicados em uma interface mais tecnica, limpa e orientada a operacao.'
+  },
+  agenda: {
+    badge: 'Agenda Operacional',
+    title: 'Planejamento semanal com leitura rapida',
+    lead: 'Acompanhe horarios, blocos e movimentacao da semana em uma tela mais objetiva.'
+  },
+  tarefas: {
+    badge: 'Execucao Diaria',
+    title: 'Acompanhe volume, andamento e entrega',
+    lead: 'Gerencie tarefas e analise o desempenho diario em uma linguagem mais analitica.'
+  },
+  timer: {
+    badge: 'Foco Operacional',
+    title: 'Sessoes de foco com menos ruido visual',
+    lead: 'Use o timer em um ambiente dedicado, com leitura clara e controles mais diretos.'
+  }
+});
+
+function syncPageMeta() {
+  const page = document.body.dataset.page || 'dashboard';
+  const copy = PAGE_COPY[page] || PAGE_COPY.dashboard;
+  const greeting = document.querySelector('.greeting');
+  if($('pageIntroBadge')) $('pageIntroBadge').textContent = copy.badge;
+  if($('pageIntroTitle')) $('pageIntroTitle').textContent = copy.title;
+  if($('pageIntroLead')) $('pageIntroLead').textContent = copy.lead;
+  if(greeting) greeting.innerHTML = PAGE_GREETING[page] || PAGE_GREETING.dashboard;
+  document.title = `NutriPlan • ${copy.badge}`;
+
+  document.querySelectorAll('[data-nav-page]').forEach(link => {
+    const isActive = link.dataset.navPage === page;
+    link.classList.toggle('active', isActive);
+    link.setAttribute('aria-current', isActive ? 'page' : 'false');
+  });
+}
+
+syncPageMeta();
+
+// ── CLOCK ────────────────────────────────────────────
+const TASK_CHART_RANGE_KEY = 'nutriplan_task_chart_range';
+const TASK_CHART_GOAL_KEY = 'nutriplan_task_chart_goal';
+let taskChartRange = parseInt(localStorage.getItem(TASK_CHART_RANGE_KEY) || '7', 10);
+let taskChartGoal = parseInt(localStorage.getItem(TASK_CHART_GOAL_KEY) || '2', 10);
+let selectedTaskChartDay = null;
+
+if(![7, 14, 30].includes(taskChartRange)) taskChartRange = 7;
+if(![2, 4, 6].includes(taskChartGoal)) taskChartGoal = 2;
+
+function shiftDateKey(offset) {
+  const d = new Date();
+  d.setHours(12,0,0,0);
+  d.setDate(d.getDate() + offset);
+  return dateKey(d);
+}
+
+function taskDateObj(key) {
+  return new Date(key + 'T12:00:00');
+}
+
+function shortTaskLabel(key) {
+  return DAYS_PT[taskDateObj(key).getDay()];
+}
+
+function shortTaskDayNumber(key) {
+  return String(taskDateObj(key).getDate()).padStart(2, '0');
+}
+
+function formatTaskDayLabel(key) {
+  const d = taskDateObj(key);
+  return DAYS_FULL[d.getDay()] + ', ' + d.getDate() + ' de ' + MONTHS_PT[d.getMonth()];
+}
+
+function normalizeTask(task) {
+  const createdAt = task.createdAt || task.created_on || task.dateKey || todayKey();
+  const done = !!task.done;
+  const completedAt = done ? (task.completedAt || task.completed_on || createdAt) : null;
+  return { ...task, done, createdAt, completedAt };
+}
+
+function persistTasks() {
+  localStorage.setItem('nutriplan_tasks', JSON.stringify(tasks));
+}
+
+function syncTaskRangeButtons() {
+  document.querySelectorAll('[data-task-range]').forEach(btn => {
+    const isActive = parseInt(btn.dataset.taskRange, 10) === taskChartRange;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  });
+}
+
+function syncTaskGoalButtons() {
+  document.querySelectorAll('[data-task-goal]').forEach(btn => {
+    const isActive = parseInt(btn.dataset.taskGoal, 10) === taskChartGoal;
+    btn.classList.toggle('active', isActive);
+    btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  });
+}
+
+function setTaskRange(days) {
+  taskChartRange = days;
+  selectedTaskChartDay = null;
+  localStorage.setItem(TASK_CHART_RANGE_KEY, String(days));
+  syncTaskRangeButtons();
+  renderTaskChart();
+}
+
+function setTaskGoal(goal) {
+  taskChartGoal = goal;
+  localStorage.setItem(TASK_CHART_GOAL_KEY, String(goal));
+  syncTaskGoalButtons();
+  renderTaskChart();
+}
+
+function selectTaskChartPoint(key) {
+  selectedTaskChartDay = key;
+  renderTaskChart();
+}
+
+function getTaskChartPoints(days = taskChartRange) {
+  const points = [];
+  const end = new Date();
+  end.setHours(12,0,0,0);
+  let runningCreated = 0;
+  let runningDone = 0;
+
+  for(let i = days - 1; i >= 0; i--) {
+    const d = new Date(end);
+    d.setDate(end.getDate() - i);
+    const key = dateKey(d);
+    const created = tasks.filter(t => t.createdAt === key).length;
+    const completed = tasks.filter(t => t.completedAt === key).length;
+    runningCreated += created;
+    runningDone += completed;
+    points.push({
+      key,
+      created,
+      completed,
+      planned: runningCreated,
+      done: runningDone,
+      balance: Math.max(runningCreated - runningDone, 0)
+    });
+  }
+
+  return points;
+}
+
+function buildTaskPolyline(points, getValue, chartWidth, chartHeight, padding, maxValueOverride) {
+  if(!points.length) return [];
+  const maxValue = Math.max(1, maxValueOverride || Math.max(...points.map(p => Math.max(p.planned, p.done))));
+  return points.map((point, index) => {
+    const x = padding.left + ((chartWidth - padding.left - padding.right) / Math.max(points.length - 1, 1)) * index;
+    const y = padding.top + (chartHeight - padding.top - padding.bottom) - ((chartHeight - padding.top - padding.bottom) * getValue(point, index) / maxValue);
+    return { x, y };
+  });
+}
+
+function buildAreaPath(coords, chartHeight, padding) {
+  if(!coords.length) return '';
+  const bottom = chartHeight - padding.bottom;
+  return `M ${coords[0].x} ${bottom} L ${coords.map(c => `${c.x} ${c.y}`).join(' L ')} L ${coords[coords.length - 1].x} ${bottom} Z`;
+}
+
+function buildSmoothLinePath(coords) {
+  if(!coords.length) return '';
+  if(coords.length === 1) return `M ${coords[0].x} ${coords[0].y}`;
+  let path = `M ${coords[0].x} ${coords[0].y}`;
+  for(let i = 0; i < coords.length - 1; i++) {
+    const current = coords[i];
+    const next = coords[i + 1];
+    const controlX = (current.x + next.x) / 2;
+    path += ` C ${controlX} ${current.y}, ${controlX} ${next.y}, ${next.x} ${next.y}`;
+  }
+  return path;
+}
+
+function buildSmoothAreaPath(coords, chartHeight, padding) {
+  if(!coords.length) return '';
+  const bottom = chartHeight - padding.bottom;
+  const smoothLine = buildSmoothLinePath(coords);
+  return `${smoothLine} L ${coords[coords.length - 1].x} ${bottom} L ${coords[0].x} ${bottom} Z`;
+}
+
+function showTaskChartTooltip(key, event) {
+  const tooltip = $('taskChartTooltip');
+  const chartPoints = getTaskChartPoints(taskChartRange);
+  const point = chartPoints.find(item => item.key === key);
+  if(!tooltip || !point) return;
+  const targetIndex = chartPoints.findIndex(item => item.key === key);
+  const targetGoal = taskChartGoal * (targetIndex + 1);
+  const executionRate = point.planned ? Math.round((point.done / point.planned) * 100) : 0;
+  const deltaGoal = point.done - targetGoal;
+  const status = deltaGoal >= 0
+    ? { label: 'Meta OK', cls: 'met' }
+    : point.done > 0
+      ? { label: 'Em Ritmo', cls: 'progress' }
+      : { label: 'Inicial', cls: 'low' };
+  const deltaLabel = deltaGoal >= 0 ? `+${deltaGoal} vs meta` : `${Math.abs(deltaGoal)} para meta`;
+  tooltip.innerHTML = `
+    <div class="task-chart-tooltip-head">
+      <div class="task-chart-tooltip-date">${formatTaskDayLabel(point.key)}</div>
+      <span class="task-chart-tooltip-status ${status.cls}">${status.label}</span>
+    </div>
+    <div class="task-chart-tooltip-grid">
+      <span class="task-chart-tooltip-row"><span class="task-chart-tooltip-swatch created"></span><span class="task-chart-tooltip-label">Criadas</span></span><strong class="task-chart-tooltip-value">${point.created}</strong>
+      <span class="task-chart-tooltip-row"><span class="task-chart-tooltip-swatch done"></span><span class="task-chart-tooltip-label">Concluídas</span></span><strong class="task-chart-tooltip-value">${point.completed}</strong>
+      <span class="task-chart-tooltip-row"><span class="task-chart-tooltip-swatch created"></span><span class="task-chart-tooltip-label">Planejadas</span></span><strong class="task-chart-tooltip-value">${point.planned}</strong>
+      <span class="task-chart-tooltip-row"><span class="task-chart-tooltip-swatch goal"></span><span class="task-chart-tooltip-label">Meta</span></span><strong class="task-chart-tooltip-value goal">${targetGoal}</strong>
+    </div>
+    <div class="task-chart-tooltip-summary">
+      <div class="task-chart-tooltip-summary-card">
+        <span class="task-chart-tooltip-summary-label">Execução</span>
+        <strong class="task-chart-tooltip-summary-value ${status.cls}">${executionRate}%</strong>
+      </div>
+      <div class="task-chart-tooltip-summary-card">
+        <span class="task-chart-tooltip-summary-label">Ritmo</span>
+        <strong class="task-chart-tooltip-summary-value ${status.cls}">${deltaLabel}</strong>
+      </div>
+    </div>
+  `;
+  tooltip.hidden = false;
+  tooltip.dataset.visible = 'true';
+  if(event && typeof event.clientX === 'number' && typeof event.clientY === 'number') {
+    moveTaskChartTooltip(event);
+    return;
+  }
+  const shell = document.querySelector('.task-chart-shell');
+  if(!shell || !event || !event.currentTarget) return;
+  const shellRect = shell.getBoundingClientRect();
+  const targetRect = event.currentTarget.getBoundingClientRect();
+  const centerX = Math.min(Math.max((targetRect.left - shellRect.left) + (targetRect.width / 2), 18), shellRect.width - 18);
+  const topY = Math.min(Math.max((targetRect.top - shellRect.top) + 12, 18), shellRect.height - 18);
+  tooltip.style.left = `${centerX}px`;
+  tooltip.style.top = `${topY}px`;
+}
+
+function moveTaskChartTooltip(event) {
+  const tooltip = $('taskChartTooltip');
+  const shell = document.querySelector('.task-chart-shell');
+  if(!tooltip || !shell || tooltip.hidden) return;
+  const rect = shell.getBoundingClientRect();
+  const localX = Math.min(Math.max(event.clientX - rect.left, 18), rect.width - 18);
+  const localY = Math.min(Math.max(event.clientY - rect.top, 18), rect.height - 18);
+  tooltip.style.left = `${localX}px`;
+  tooltip.style.top = `${localY}px`;
+}
+
+function hideTaskChartTooltip() {
+  const tooltip = $('taskChartTooltip');
+  if(!tooltip) return;
+  tooltip.dataset.visible = 'false';
+  tooltip.hidden = true;
+}
+
+function renderTaskChart() {
+  syncTaskRangeButtons();
+  syncTaskGoalButtons();
+  hideTaskChartTooltip();
+
+  const svg = $('taskChartSvg');
+  const axis = $('taskChartAxis');
+  const empty = $('taskChartEmpty');
+  const points = getTaskChartPoints(taskChartRange);
+  const hasData = points.some(point => point.created > 0 || point.completed > 0);
+  const currentPoint = points.find(point => point.key === selectedTaskChartDay) || points[points.length - 1];
+
+  if(currentPoint) selectedTaskChartDay = currentPoint.key;
+
+  $('taskChartPeriod').textContent = `Últimos ${taskChartRange} dias`;
+  $('taskChartDayLabel').textContent = currentPoint ? formatTaskDayLabel(currentPoint.key) : 'Hoje';
+  $('taskChartCreatedValue').textContent = currentPoint ? currentPoint.created : 0;
+  $('taskChartDoneValue').textContent = currentPoint ? currentPoint.completed : 0;
+  $('taskChartBalanceValue').textContent = currentPoint ? currentPoint.balance : 0;
+  $('taskChartGoalNote').textContent = `Meta: ${taskChartGoal} tarefas/dia · alvo acumulado ${taskChartGoal * taskChartRange}`;
+
+  axis.style.gridTemplateColumns = `repeat(${points.length}, minmax(0, 1fr))`;
+  axis.innerHTML = points.map(point => `
+    <button class="task-chart-axis-item${currentPoint && currentPoint.key === point.key ? ' active' : ''}" type="button" onclick="selectTaskChartPoint('${point.key}')" onmouseenter="showTaskChartTooltip('${point.key}', event)" onmousemove="moveTaskChartTooltip(event)" onmouseleave="hideTaskChartTooltip()" onfocus="showTaskChartTooltip('${point.key}', event)" onblur="hideTaskChartTooltip()">
+      <div class="task-chart-axis-day">${shortTaskLabel(point.key)}</div>
+      <div class="task-chart-axis-date">${shortTaskDayNumber(point.key)}</div>
+    </button>
+  `).join('');
+
+  empty.hidden = hasData;
+  empty.style.display = hasData ? 'none' : 'flex';
+
+  const chartWidth = 560;
+  const chartHeight = 190;
+  const padding = { top: 20, right: 18, bottom: 24, left: 18 };
+  const maxValue = Math.max(1, ...points.map((point, index) => Math.max(point.planned, point.done, taskChartGoal * (index + 1))));
+  const dailyMax = Math.max(1, ...points.map(point => Math.max(point.created, point.completed, taskChartGoal)));
+  const createdCoords = buildTaskPolyline(points, point => point.planned, chartWidth, chartHeight, padding, maxValue);
+  const doneCoords = buildTaskPolyline(points, point => point.done, chartWidth, chartHeight, padding, maxValue);
+  const goalCoords = buildTaskPolyline(points, (_point, index) => taskChartGoal * (index + 1), chartWidth, chartHeight, padding, maxValue);
+  const areaPath = buildSmoothAreaPath(createdCoords, chartHeight, padding);
+  const createdLinePath = buildSmoothLinePath(createdCoords);
+  const doneLinePath = buildSmoothLinePath(doneCoords);
+  const goalLinePath = buildSmoothLinePath(goalCoords);
+  const currentIndex = currentPoint ? points.findIndex(point => point.key === currentPoint.key) : -1;
+  const currentCreatedCoord = currentIndex >= 0 ? createdCoords[currentIndex] : null;
+  const currentDoneCoord = currentIndex >= 0 ? doneCoords[currentIndex] : null;
+  const currentGoalCoord = currentIndex >= 0 ? goalCoords[currentIndex] : null;
+
+  const gridLines = Array.from({ length: 4 }, (_, index) => {
+    const ratio = index / 3;
+    const y = padding.top + ((chartHeight - padding.top - padding.bottom) * ratio);
+    return `<line class="task-chart-grid-line" x1="${padding.left}" y1="${y}" x2="${chartWidth - padding.right}" y2="${y}"></line>`;
+  }).join('');
+
+  const slotWidth = (chartWidth - padding.left - padding.right) / Math.max(points.length, 1);
+  const barWidth = Math.max(5, Math.min(12, slotWidth * 0.22));
+  const barGap = Math.max(3, Math.min(6, slotWidth * 0.08));
+  const barZoneHeight = 34;
+  const barBottom = chartHeight - padding.bottom - 2;
+  const dailyBars = points.map((point, index) => {
+    const centerX = createdCoords[index] ? createdCoords[index].x : padding.left;
+    const createdHeight = (barZoneHeight * point.created) / dailyMax;
+    const doneHeight = (barZoneHeight * point.completed) / dailyMax;
+    const radius = Math.min(barWidth / 2, 4);
+    return `
+      <rect class="task-chart-bar-created" x="${centerX - barGap - barWidth}" y="${barBottom - createdHeight}" width="${barWidth}" height="${createdHeight}" rx="${radius}" onclick="selectTaskChartPoint('${point.key}')" onmouseenter="showTaskChartTooltip('${point.key}', event)" onmousemove="moveTaskChartTooltip(event)" onmouseleave="hideTaskChartTooltip()"></rect>
+      <rect class="task-chart-bar-done" x="${centerX + barGap}" y="${barBottom - doneHeight}" width="${barWidth}" height="${doneHeight}" rx="${radius}" onclick="selectTaskChartPoint('${point.key}')" onmouseenter="showTaskChartTooltip('${point.key}', event)" onmousemove="moveTaskChartTooltip(event)" onmouseleave="hideTaskChartTooltip()"></rect>
+    `;
+  }).join('');
+
+  const defs = `
+    <defs>
+      <linearGradient id="taskChartAreaGradient" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--teal)" stop-opacity="0.28"></stop>
+        <stop offset="58%" stop-color="var(--teal)" stop-opacity="0.12"></stop>
+        <stop offset="100%" stop-color="var(--teal)" stop-opacity="0"></stop>
+      </linearGradient>
+      <linearGradient id="taskChartCreatedGradient" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="var(--teal)"></stop>
+        <stop offset="100%" stop-color="var(--sky)"></stop>
+      </linearGradient>
+      <linearGradient id="taskChartDoneGradient" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="var(--green)"></stop>
+        <stop offset="100%" stop-color="#7fe6c0"></stop>
+      </linearGradient>
+      <filter id="taskChartSoftGlow" x="-20%" y="-20%" width="140%" height="160%">
+        <feGaussianBlur stdDeviation="4"></feGaussianBlur>
+      </filter>
+      <filter id="taskChartBadgeShadow" x="-30%" y="-30%" width="160%" height="180%">
+        <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="rgba(15, 23, 42, 0.18)"></feDropShadow>
+      </filter>
+    </defs>
+  `;
+
+  const selectedGuide = currentCreatedCoord ? `
+    <line class="task-chart-guide-line" x1="${currentCreatedCoord.x}" y1="${padding.top + 4}" x2="${currentCreatedCoord.x}" y2="${chartHeight - padding.bottom}"></line>
+  ` : '';
+
+  const badgeWidth = 146;
+  const badgeHeight = 42;
+  const badgeX = currentCreatedCoord ? Math.min(Math.max(currentCreatedCoord.x - (badgeWidth / 2), padding.left), chartWidth - padding.right - badgeWidth) : 0;
+  const badgeY = currentCreatedCoord ? Math.max(padding.top + 2, Math.min(currentCreatedCoord.y, currentDoneCoord ? currentDoneCoord.y : currentCreatedCoord.y, currentGoalCoord ? currentGoalCoord.y : currentCreatedCoord.y) - 56) : 0;
+  const selectedBadge = currentCreatedCoord && currentPoint ? `
+    <g class="task-chart-guide-badge" filter="url(#taskChartBadgeShadow)">
+      <rect x="${badgeX}" y="${badgeY}" width="${badgeWidth}" height="${badgeHeight}" rx="14" fill="var(--card)"></rect>
+      <rect x="${badgeX + 12}" y="${badgeY + 11}" width="7" height="7" rx="3.5" fill="var(--teal)"></rect>
+      <text class="task-chart-guide-text" x="${badgeX + 30}" y="${badgeY + 18}" fill="var(--text)">${currentPoint.planned} planejadas</text>
+      <text class="task-chart-guide-subtext" x="${badgeX + 30}" y="${badgeY + 31}" fill="var(--text2)">${currentPoint.completed} concluidas · meta ${taskChartGoal * (currentIndex + 1)}</text>
+    </g>
+  ` : '';
+
+  const goalLastCoord = goalCoords[goalCoords.length - 1];
+  const goalTagWidth = 48;
+  const goalTagHeight = 18;
+  const goalTagX = goalLastCoord ? Math.max(padding.left, Math.min(goalLastCoord.x - goalTagWidth + 6, chartWidth - padding.right - goalTagWidth)) : 0;
+  const goalTagY = goalLastCoord ? Math.max(padding.top + 6, goalLastCoord.y - 20) : 0;
+  const goalTag = goalLastCoord ? `
+    <g>
+      <rect x="${goalTagX}" y="${goalTagY}" width="${goalTagWidth}" height="${goalTagHeight}" rx="9" fill="rgba(255, 214, 138, 0.18)" stroke="rgba(201, 152, 44, 0.34)"></rect>
+      <text x="${goalTagX + (goalTagWidth / 2)}" y="${goalTagY + 12}" text-anchor="middle" fill="var(--gold)" font-size="9" font-family="JetBrains Mono, monospace" letter-spacing="0.08em">META</text>
+    </g>
+  ` : '';
+
+  const dotsCreated = createdCoords.map((coord, index) => {
+    const point = points[index];
+    const active = currentPoint && currentPoint.key === point.key ? ' active' : '';
+    return `<circle class="task-chart-dot task-chart-dot-created${active}" cx="${coord.x}" cy="${coord.y}" r="${active ? 5.5 : 4.2}" onclick="selectTaskChartPoint('${point.key}')"><title>${formatTaskDayLabel(point.key)} · Planejadas acumuladas: ${point.planned}</title></circle>`;
+  }).join('');
+
+  const dotsDone = doneCoords.map((coord, index) => {
+    const point = points[index];
+    const active = currentPoint && currentPoint.key === point.key ? ' active' : '';
+    return `<circle class="task-chart-dot task-chart-dot-done${active}" cx="${coord.x}" cy="${coord.y}" r="${active ? 5.5 : 4.2}" onclick="selectTaskChartPoint('${point.key}')"><title>${formatTaskDayLabel(point.key)} · Concluídas acumuladas: ${point.done}</title></circle>`;
+  }).join('');
+
+  svg.innerHTML = `
+    ${defs}
+    ${gridLines}
+    ${dailyBars}
+    <line class="task-chart-baseline" x1="${padding.left}" y1="${chartHeight - padding.bottom}" x2="${chartWidth - padding.right}" y2="${chartHeight - padding.bottom}"></line>
+    ${selectedGuide}
+    ${hasData ? `<path class="task-chart-area" d="${areaPath}" fill="url(#taskChartAreaGradient)"></path>` : ''}
+    <path class="task-chart-line-goal" d="${goalLinePath}"></path>
+    <path class="task-chart-line-shadow" d="${createdLinePath}" stroke="var(--teal)" filter="url(#taskChartSoftGlow)"></path>
+    <path class="task-chart-line-shadow" d="${doneLinePath}" stroke="var(--green)" filter="url(#taskChartSoftGlow)"></path>
+    <path class="task-chart-line-created" d="${createdLinePath}" stroke="url(#taskChartCreatedGradient)"></path>
+    <path class="task-chart-line-done" d="${doneLinePath}" stroke="url(#taskChartDoneGradient)"></path>
+    ${goalTag}
+    ${selectedBadge}
+    ${dotsCreated}
+    ${dotsDone}
+    <text x="${padding.left}" y="${padding.top - 4}" fill="var(--text3)" font-size="10" font-family="JetBrains Mono, monospace">${maxValue}</text>
+  `;
+}
+
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  $('clockStr').textContent = h+':'+m;
+  $('dateStr').textContent = DAYS_FULL[now.getDay()]+', '+now.getDate()+' de '+MONTHS_PT[now.getMonth()]+' de '+now.getFullYear();
+}
+updateClock(); setInterval(updateClock, 1000);
+
+// ── WEEK UTILS ───────────────────────────────────────
+function getWeekStart(offset) {
+  const now = new Date();
+  const day = now.getDay(); // 0=Sun
+  const diff = (day === 0 ? -6 : 1 - day); // Monday
+  const mon = new Date(now);
+  mon.setDate(now.getDate() + diff + offset * 7);
+  mon.setHours(0,0,0,0);
+  return mon;
+}
+
+function weekDates(offset) {
+  const mon = getWeekStart(offset);
+  return Array.from({length:7}, (_,i) => {
+    const d = new Date(mon); d.setDate(mon.getDate()+i); return d;
+  });
+}
+
+// Key: "YYYY-MM-DD"
+function dateKey(d) { return d.toISOString().slice(0,10); }
+
+function todayKey() { return dateKey(new Date()); }
+
+// ── SCHEDULE RENDER ──────────────────────────────────
+function renderSchedule() {
+  const dates = weekDates(weekOffset);
+  const mon = dates[0], sun = dates[6];
+  $('weekLabel').textContent =
+    mon.getDate()+'/'+String(mon.getMonth()+1).padStart(2,'0') +
+    ' – ' + sun.getDate()+'/'+String(sun.getMonth()+1).padStart(2,'0');
+  $('todayDateLabel').textContent = DAYS_FULL[new Date().getDay()]+', '+new Date().getDate()+' de '+MONTHS_PT[new Date().getMonth()];
+
+  const grid = $('schedGrid');
+  grid.innerHTML = '';
+
+  // Column 0 empty header
+  const emptyHd = document.createElement('div');
+  grid.appendChild(emptyHd);
+
+  // Day headers
+  const todayStr = todayKey();
+  dates.forEach((d, i) => {
+    const hd = document.createElement('div');
+    hd.className = 'sched-day-hd' + (dateKey(d)===todayStr ? ' today' : '');
+    hd.innerHTML = `<div class="sched-day-name">${DAYS_PT[(i+1)%7]}</div><div class="sched-day-num">${d.getDate()}</div>`;
+    grid.appendChild(hd);
+  });
+
+  // Rows
+  HOURS.forEach(hour => {
+    const labelEl = document.createElement('div');
+    labelEl.className = 'sched-hour-label';
+    labelEl.textContent = hour;
+    grid.appendChild(labelEl);
+
+    dates.forEach((d, di) => {
+      const cell = document.createElement('div');
+      cell.className = 'sched-cell';
+
+      // find event at this slot
+      const dk = dateKey(d);
+      const ev = events.find(e => e.dateKey === dk && e.hour === hour);
+
+      if(ev) {
+        cell.classList.add('has-event');
+        const blk = document.createElement('div');
+        blk.className = 'event-block ' + (CAT_CLASS[ev.cat] || 'ev-outros');
+        blk.textContent = ev.title;
+        blk.title = ev.title + (ev.note ? '\n'+ev.note : '');
+        blk.onclick = () => openModal(ev.id, di, hour);
+        cell.appendChild(blk);
+      } else {
+        cell.onclick = () => openModal(null, di, hour);
+      }
+
+      grid.appendChild(cell);
+    });
+  });
+
+  renderToday();
+  renderTaskChart();
+  updateStats();
+}
+
+// ── TODAY PANEL ──────────────────────────────────────
+function renderToday() {
+  const tk = todayKey();
+  const todayEvs = events
+    .filter(e => e.dateKey === tk)
+    .sort((a,b) => a.hour.localeCompare(b.hour));
+
+  const panel = $('todayList');
+  if(!todayEvs.length) {
+    panel.innerHTML = '<div style="font-size:12px;color:var(--text3);text-align:center;padding:20px 0">Nenhum evento hoje.<br>Clique na grade para adicionar!</div>';
+    return;
+  }
+  panel.innerHTML = '';
+  todayEvs.forEach(ev => {
+    const div = document.createElement('div');
+    div.style.cssText = `display:flex;align-items:center;gap:9px;padding:9px 11px;background:var(--bg3);border:1px solid var(--border);border-radius:7px;cursor:pointer;transition:all 0.15s`;
+    div.onmouseover = ()=>div.style.background='var(--bg4)';
+    div.onmouseout  = ()=>div.style.background='var(--bg3)';
+    div.onclick = () => openModal(ev.id);
+    div.innerHTML = `
+      <div style="width:3px;height:32px;border-radius:4px;background:${CAT_COLOR[ev.cat]||'var(--teal)'};flex-shrink:0"></div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${ev.title}</div>
+        <div style="font-size:11px;color:var(--text3)">${ev.hour} · ${CAT_LABEL[ev.cat]||'Evento'}</div>
+      </div>
+      <div style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--text3)">${ev.hour}</div>
+    `;
+    panel.appendChild(div);
+  });
+}
+
+// ── STATS ────────────────────────────────────────────
+// Override visual do painel "Hoje" para usar classes e hover consistente.
+function renderToday() {
+  const tk = todayKey();
+  const todayEvs = events
+    .filter(e => e.dateKey === tk)
+    .sort((a,b) => a.hour.localeCompare(b.hour));
+
+  const panel = $('todayList');
+  if(!todayEvs.length) {
+    panel.innerHTML = '<div class="today-empty">Nenhum evento hoje.<br>Clique na grade para adicionar!</div>';
+    return;
+  }
+
+  panel.innerHTML = '';
+  todayEvs.forEach(ev => {
+    const div = document.createElement('div');
+    div.className = 'today-item';
+    div.onclick = () => openModal(ev.id);
+    div.title = ev.title + (ev.note ? '\n' + ev.note : '');
+    div.innerHTML = `
+      <div class="today-item-accent" style="background:${CAT_COLOR[ev.cat]||'var(--teal)'}"></div>
+      <div class="today-item-body">
+        <div class="today-item-title">${ev.title}</div>
+        <div class="today-item-meta">${ev.hour} · ${CAT_LABEL[ev.cat]||'Evento'}</div>
+      </div>
+      <div class="today-item-time">${ev.hour}</div>
+    `;
+    panel.appendChild(div);
+  });
+}
+
+function updateStats() {
+  const dates = weekDates(weekOffset);
+  const keys = dates.map(dateKey);
+  const weekEvs = events.filter(e => keys.includes(e.dateKey));
+
+  $('countConsultas').textContent = weekEvs.filter(e=>e.cat==='consulta').length;
+  $('countSocial').textContent    = weekEvs.filter(e=>e.cat==='social').length;
+
+  const done = tasks.filter(t=>t.done).length;
+  const pending = tasks.filter(t=>!t.done).length;
+  $('countDone').textContent    = done;
+  $('countPending').textContent = pending;
+}
+
+function changeWeek(d) { weekOffset += d; renderSchedule(); }
+
+// ── MODAL ────────────────────────────────────────────
+function populateHours() {
+  const sel = $('evHour');
+  sel.innerHTML = '';
+  HOURS.forEach(h => {
+    const op = document.createElement('option');
+    op.value = h; op.textContent = h;
+    sel.appendChild(op);
+  });
+}
+populateHours();
+
+function openModal(id=null, dayIdx=null, hour=null) {
+  editingId = id;
+  $('modalTitle').textContent = id ? 'Editar Evento' : 'Novo Evento';
+  $('btnDelete').style.display = id ? 'block' : 'none';
+
+  if(id) {
+    const ev = events.find(e=>e.id===id);
+    if(!ev) return;
+    $('evTitle').value    = ev.title;
+    $('evNote').value     = ev.note  || '';
+    $('evCat').value      = ev.cat   || 'consulta';
+    $('evHour').value     = ev.hour;
+    $('evDuration').value = ev.duration || 2;
+    // figure out day index from dateKey
+    const evDate = new Date(ev.dateKey+'T12:00:00');
+    const dow = evDate.getDay(); // 0=Sun
+    const di = dow===0 ? 6 : dow-1;
+    $('evDay').value = di;
+  } else {
+    $('evTitle').value    = '';
+    $('evNote').value     = '';
+    $('evCat').value      = 'consulta';
+    $('evDuration').value = 2;
+    if(dayIdx !== null) $('evDay').value = dayIdx;
+    if(hour)            $('evHour').value = hour;
+  }
+
+  $('modalOverlay').style.display = 'flex';
+  setTimeout(()=>$('evTitle').focus(), 80);
+}
+
+function closeModal() { $('modalOverlay').style.display = 'none'; editingId = null; }
+
+function saveEvent() {
+  const title = $('evTitle').value.trim();
+  if(!title) { $('evTitle').focus(); return; }
+
+  const dayIdx = parseInt($('evDay').value); // 0=Mon..6=Sun
+  const dates  = weekDates(weekOffset);
+  const dk     = dateKey(dates[dayIdx]);
+
+  const evData = {
+    id:       editingId || Date.now().toString(),
+    title,
+    dateKey:  dk,
+    hour:     $('evHour').value,
+    duration: parseInt($('evDuration').value),
+    cat:      $('evCat').value,
+    note:     $('evNote').value.trim(),
+  };
+
+  if(editingId) {
+    events = events.map(e => e.id===editingId ? evData : e);
+  } else {
+    events.push(evData);
+  }
+
+  localStorage.setItem('nutriplan_events', JSON.stringify(events));
+  closeModal();
+  renderSchedule();
+}
+
+function deleteEvent() {
+  if(!editingId) return;
+  events = events.filter(e=>e.id!==editingId);
+  localStorage.setItem('nutriplan_events', JSON.stringify(events));
+  closeModal();
+  renderSchedule();
+}
+
+// ── TASKS ────────────────────────────────────────────
+if(!tasks.length) {
+  tasks = [
+    {id:'1',text:'Postar Stories com dica de nutrição',done:false,cat:'social'},
+    {id:'2',text:'Montar plano alimentar — cliente Maria',done:false,cat:'consulta'},
+    {id:'3',text:'Responder DMs e comentários',done:true,cat:'social'},
+    {id:'4',text:'Enviar relatório mensal',done:false,cat:'admin'},
+    {id:'5',text:'Gravar vídeo para o Reels',done:false,cat:'social'},
+  ];
+  localStorage.setItem('nutriplan_tasks', JSON.stringify(tasks));
+}
+
+tasks = tasks.map(normalizeTask);
+
+if(
+  tasks.length === 5 &&
+  tasks.every((task, index) => task.id === String(index + 1)) &&
+  tasks.every(task => task.createdAt === todayKey())
+) {
+  tasks = tasks.map((task, index) => ({
+    ...task,
+    createdAt: shiftDateKey(index - 4),
+    completedAt: task.done ? shiftDateKey(Math.min(index - 3, 0)) : null
+  }));
+}
+
+persistTasks();
+
+function renderTasks() {
+  const list = $('taskList');
+  list.innerHTML = '';
+  tasks.forEach((t,i) => {
+    const div = document.createElement('div');
+    div.className = 'task-item' + (t.done?' done':'');
+    div.onclick = e => { if(!e.target.classList.contains('task-del')) toggleTask(i); };
+
+    const col = CAT_COLOR[t.cat]||'var(--teal)';
+    const bg  = CAT_BG[t.cat]  ||'var(--teal-dim)';
+
+    div.innerHTML = `
+      <div class="task-check">${t.done?'✓':''}</div>
+      <div class="task-text">${t.text}</div>
+      <div class="task-cat" style="background:${bg};color:${col}">${CAT_LABEL[t.cat]||'Outros'}</div>
+      <div class="task-del" onclick="deleteTask(${i})">✕</div>
+    `;
+    list.appendChild(div);
+  });
+  const done = tasks.filter(t=>t.done).length;
+  $('taskSub').textContent = `${done} de ${tasks.length} concluídas`;
+  updateStats();
+  renderTaskChart();
+}
+
+function addTask() {
+  const txt = $('taskInput').value.trim();
+  if(!txt) return;
+  tasks.unshift({
+    id: Date.now().toString(),
+    text: txt,
+    done: false,
+    cat: $('taskCatSel').value,
+    createdAt: todayKey(),
+    completedAt: null
+  });
+  $('taskInput').value = '';
+  persistTasks();
+  renderTasks();
+}
+
+function toggleTask(i) {
+  tasks[i].done = !tasks[i].done;
+  tasks[i].completedAt = tasks[i].done ? todayKey() : null;
+  persistTasks();
+  renderTasks();
+}
+
+function deleteTask(i) {
+  tasks.splice(i,1);
+  persistTasks();
+  renderTasks();
+}
+
+function clearDone() {
+  tasks = tasks.filter(t=>!t.done);
+  persistTasks();
+  renderTasks();
+}
+
+// ── TIMER ────────────────────────────────────────────
+let timerSecs = 25*60, totalSecs = 25*60, running = false, timerInterval = null;
+
+function fmt(s) { return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+function updDisplay() { $('timerDisplay').textContent = fmt(timerSecs); }
+
+function legacyToggleTimer() {
+  if(running) {
+    clearInterval(timerInterval); running = false;
+    $('playBtn').textContent = '▶';
+  } else {
+    running = true; $('playBtn').textContent = '⏸';
+    timerInterval = setInterval(()=>{
+      if(timerSecs>0){ timerSecs--; updDisplay(); }
+      else { clearInterval(timerInterval); running=false; $('playBtn').textContent='▶'; markSession(); }
+    },1000);
+  }
+}
+
+function legacyResetTimer() {
+  clearInterval(timerInterval); running=false;
+  timerSecs=totalSecs; updDisplay(); $('playBtn').textContent='▶';
+}
+
+function legacySkipTimer() {
+  clearInterval(timerInterval); running=false;
+  timerSecs=0; updDisplay(); $('playBtn').textContent='▶'; markSession();
+}
+
+function legacySetMode(btn, mins, name) {
+  document.querySelectorAll('.mode-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  totalSecs = mins*60; timerSecs=totalSecs;
+  $('timerModeName').textContent = 'Pomodoro — '+name;
+  clearInterval(timerInterval); running=false; $('playBtn').textContent='▶';
+  updDisplay();
+}
+
+function markSession() {
+  const dots = document.querySelectorAll('.sdot');
+  for(let d of dots){ if(!d.classList.contains('done')){ d.classList.add('done'); break; } }
+}
+
+// ── INIT ─────────────────────────────────────────────
+function setPlayButton(mode='start') {
+  $('playBtn').textContent = mode === 'pause' ? 'PAUSE' : 'START';
+}
+
+function toggleTimer() {
+  if(running) {
+    clearInterval(timerInterval);
+    running = false;
+    setPlayButton('start');
+  } else {
+    running = true;
+    setPlayButton('pause');
+    timerInterval = setInterval(()=>{
+      if(timerSecs > 0) {
+        timerSecs--;
+        updDisplay();
+      } else {
+        clearInterval(timerInterval);
+        running = false;
+        setPlayButton('start');
+        markSession();
+      }
+    }, 1000);
+  }
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  running = false;
+  timerSecs = totalSecs;
+  updDisplay();
+  setPlayButton('start');
+}
+
+function skipTimer() {
+  clearInterval(timerInterval);
+  running = false;
+  timerSecs = 0;
+  updDisplay();
+  setPlayButton('start');
+  markSession();
+}
+
+function setMode(btn, mins, name) {
+  document.querySelectorAll('.mode-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  totalSecs = mins * 60;
+  timerSecs = totalSecs;
+  $('timerModeName').textContent = 'Pomodoro - ' + name;
+  clearInterval(timerInterval);
+  running = false;
+  setPlayButton('start');
+  updDisplay();
+}
+
+setPlayButton('start');
+renderSchedule();
+renderTasks();
+</script>
+</body>
+</html>
